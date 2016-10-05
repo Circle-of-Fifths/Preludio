@@ -1,11 +1,17 @@
-import javafx.geometry.Pos;
+//import javafx.geometry.Pos;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+//import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
+//import javafx.scene.layout.FlowPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -14,7 +20,7 @@ import java.net.URL;
 
 public class Controller {
 
-    private Stage stage;
+    private static Stage stage;
 
     /**
      * Constructor for Controller
@@ -30,25 +36,54 @@ public class Controller {
      */
     public void gotoTitleScreen() {
         Group root = new Group();
-        FlowPane layout = new FlowPane(10, 10);
-        layout.setAlignment(Pos.CENTER);
-        Image titleImg = new Image("/Resources/Backgrounds/violin.jpg",
-                500, 375, false, false);
+        Pane layout = new Pane();
+
+        Image titleImg = new Image("/Resources/Backgrounds/Title.jpg",
+                800, 650, false, false);
         ImageView titleIv = new ImageView(titleImg);
+
+        Glow glowEffect = new Glow();
+        DropShadow shadow = new DropShadow();
         Button start = new Button("START");
-        Label title = new Label("Project Preludio 2017");
+        start.setEffect(shadow);
+        start.setLayoutX(345);
+        start.setLayoutY(350);
+        start.setStyle("-fx-font: 32 serif; -fx-base: #b6e7c9;");
+
+        start.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override public void handle(MouseEvent e) {
+                        start.setEffect(glowEffect);
+                    }
+                });
+
+        start.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override public void handle(MouseEvent e) {
+                        start.setEffect(shadow);
+                    }
+                });
+
+        start.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                gotoMainMenu();
+            }
+        });
+
         String titleSongStr = "/Resources/Music/Allegro.mp3";
         URL titleSongUrl = getClass().getResource(titleSongStr);
         Media titleSong = new Media(titleSongUrl.toString());
         MediaPlayer player = new MediaPlayer(titleSong);
 
+        root.getChildren().add(titleIv);
+        layout.getChildren().addAll(start);
+        root.getChildren().add(layout);
+
         stage.setTitle("Project Preludio 2017");
-        Scene scene = new Scene(root, 500, 375);
+        Scene scene = new Scene(root, 800, 650);
         stage.setScene(scene);
 
-        root.getChildren().add(titleIv);
-        layout.getChildren().addAll(title, start);
-        root.getChildren().add(layout);
         stage.setResizable(false);
         player.play();
         stage.show();
@@ -58,8 +93,24 @@ public class Controller {
      * Method that sets up and shows
      * Main Menu screen
      */
-    public void gotoMainMenu() {
+    public static void gotoMainMenu() {
         // code to make a new scene to change
         // the primary stage (takes you to new screen)
+        Group root = new Group();
+        Pane layout = new Pane();
+
+        Image mainMenuImg = new Image("/Resources/Backgrounds/"
+                 + "circle_of_fifths_colors.png",
+                800, 650, false, false);
+        ImageView titleIv = new ImageView(mainMenuImg);
+        root.getChildren().add(titleIv);
+        root.getChildren().add(layout);
+
+        stage.setTitle("Project Preludio 2017");
+        Scene scene = new Scene(root, 800, 650);
+        stage.setScene(scene);
+
+        stage.setResizable(false);
+        stage.show();
     }
 }
