@@ -106,7 +106,7 @@ public class Controller {
      * Method that sets up and shows
      * Main Menu screen
      */
-    public void gotoMainMenu() {
+    private void gotoMainMenu() {
         // code to make a new scene to change
         // the primary stage (takes you to new screen)
         Group root = new Group();
