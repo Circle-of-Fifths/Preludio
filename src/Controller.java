@@ -69,16 +69,7 @@ public class Controller {
                     }
                 });
 
-        String titleSongStr = "/Resources/Music/Allegro.mp3";
-        URL titleSongUrl = getClass().getResource(titleSongStr);
-        Media titleSong = new Media(titleSongUrl.toString());
-        MediaPlayer player = new MediaPlayer(titleSong);
-        player.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                player.seek(Duration.ZERO);
-            }
-        });
+        MediaPlayer player = createMusicPlayer("/Resources/Music/Allegro.mp3");
 
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -119,16 +110,7 @@ public class Controller {
         root.getChildren().add(titleIv);
         root.getChildren().add(layout);
 
-        String titleSongStr = "/Resources/Music/Allegro.mp3";
-        URL titleSongUrl = getClass().getResource(titleSongStr);
-        Media titleSong = new Media(titleSongUrl.toString());
-        MediaPlayer player = new MediaPlayer(titleSong);
-        player.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                player.seek(Duration.ZERO);
-            }
-        });
+        MediaPlayer player = createMusicPlayer("/Resources/Music/Allegro.mp3");
 
         stage.setTitle("Project Preludio 2017");
         Scene scene = new Scene(root, 800, 650);
@@ -148,5 +130,24 @@ public class Controller {
         stage.setResizable(false);
         player.play();
         stage.show();
+    }
+
+    /**
+     * Creates a media player for the given
+     * song string representation
+     * @param songStr String representation of song
+     * @return Media Player of song passed in
+     */
+    private MediaPlayer createMusicPlayer(String songStr) {
+        URL songUrl = getClass().getResource(songStr);
+        Media song = new Media(songUrl.toString());
+        MediaPlayer player = new MediaPlayer(song);
+        player.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                player.seek(Duration.ZERO);
+            }
+        });
+        return player;
     }
 }
