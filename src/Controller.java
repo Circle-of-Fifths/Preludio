@@ -10,6 +10,8 @@ import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 //import javafx.scene.layout.FlowPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -67,13 +69,6 @@ public class Controller {
                     }
                 });
 
-        start.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                gotoMainMenu();
-            }
-        });
-
         String titleSongStr = "/Resources/Music/Allegro.mp3";
         URL titleSongUrl = getClass().getResource(titleSongStr);
         Media titleSong = new Media(titleSongUrl.toString());
@@ -82,6 +77,15 @@ public class Controller {
             @Override
             public void run() {
                 player.seek(Duration.ZERO);
+            }
+        });
+
+        start.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                player.stop();
+                player.dispose();
+                gotoMainMenu();
             }
         });
 
@@ -102,7 +106,7 @@ public class Controller {
      * Method that sets up and shows
      * Main Menu screen
      */
-    public static void gotoMainMenu() {
+    public void gotoMainMenu() {
         // code to make a new scene to change
         // the primary stage (takes you to new screen)
         Group root = new Group();
@@ -115,11 +119,34 @@ public class Controller {
         root.getChildren().add(titleIv);
         root.getChildren().add(layout);
 
+        String titleSongStr = "/Resources/Music/Allegro.mp3";
+        URL titleSongUrl = getClass().getResource(titleSongStr);
+        Media titleSong = new Media(titleSongUrl.toString());
+        MediaPlayer player = new MediaPlayer(titleSong);
+        player.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                player.seek(Duration.ZERO);
+            }
+        });
+
         stage.setTitle("Project Preludio 2017");
         Scene scene = new Scene(root, 800, 650);
         stage.setScene(scene);
 
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    player.stop();
+                    player.dispose();
+                    gotoTitleScreen();
+                }
+            }
+        });
+
         stage.setResizable(false);
+        player.play();
         stage.show();
     }
 }
