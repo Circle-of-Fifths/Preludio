@@ -14,7 +14,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.net.URL;
 
@@ -49,6 +51,7 @@ public class Controller {
         start.setLayoutX(345);
         start.setLayoutY(350);
         start.setStyle("-fx-font: 32 serif; -fx-base: #b6e7c9;");
+        start.setShape(new Circle(1.0));
 
         start.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -75,6 +78,12 @@ public class Controller {
         URL titleSongUrl = getClass().getResource(titleSongStr);
         Media titleSong = new Media(titleSongUrl.toString());
         MediaPlayer player = new MediaPlayer(titleSong);
+        player.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                player.seek(Duration.ZERO);
+            }
+        });
 
         root.getChildren().add(titleIv);
         layout.getChildren().addAll(start);
