@@ -26,7 +26,9 @@ public class Controller {
 
     private static Stage stage;
     private MediaPlayer titlePlayer = this.createMusicPlayer(
-            "/Resources/Music/Allegro.mp3");
+            "/Resources/Music/Allegro.mp3", .75, true);
+    private MediaPlayer buttonSound = this.createMusicPlayer(
+            "/Resources/Music/buttonSound.mp3", .20, false);
 
     /**
      * Constructor for Controller
@@ -74,6 +76,7 @@ public class Controller {
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                buttonSound.play();
                 titlePlayer.stop();
                 gotoMainMenu();
             }
@@ -142,18 +145,23 @@ public class Controller {
      * Creates a media player for the given
      * song string representation
      * @param songStr String representation of song
+     * @param isLooping boolean determining if song will loop
+     * @param volume volume that the music will play
      * @return Media Player of song passed in
      */
-    private MediaPlayer createMusicPlayer(String songStr) {
+    private MediaPlayer createMusicPlayer(String songStr, double volume, boolean isLooping) {
         URL songUrl = getClass().getResource(songStr);
         Media song = new Media(songUrl.toString());
         MediaPlayer player = new MediaPlayer(song);
-        player.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                player.seek(Duration.ZERO);
-            }
-        });
+        player.setVolume(volume);
+        if (isLooping) {
+            player.setOnEndOfMedia(new Runnable() {
+                @Override
+                public void run() {
+                    player.seek(Duration.ZERO);
+                }
+            });
+        }
         return player;
     }
 }
