@@ -25,6 +25,8 @@ import java.net.URL;
 public class Controller {
 
     private static Stage stage;
+    private MediaPlayer titlePlayer = this.createMusicPlayer(
+            "/Resources/Music/Allegro.mp3");
 
     /**
      * Constructor for Controller
@@ -69,13 +71,10 @@ public class Controller {
                     }
                 });
 
-        MediaPlayer player = createMusicPlayer("/Resources/Music/Allegro.mp3");
-
         start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                player.stop();
-                player.dispose();
+                titlePlayer.stop();
                 gotoMainMenu();
             }
         });
@@ -88,8 +87,18 @@ public class Controller {
         Scene scene = new Scene(root, 800, 650);
         stage.setScene(scene);
 
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    titlePlayer.pause();
+                    gotoMainMenu();
+                }
+            }
+        });
+
         stage.setResizable(false);
-        player.play();
+        titlePlayer.play();
         stage.show();
     }
 
@@ -110,8 +119,6 @@ public class Controller {
         root.getChildren().add(titleIv);
         root.getChildren().add(layout);
 
-        MediaPlayer player = createMusicPlayer("/Resources/Music/Allegro.mp3");
-
         stage.setTitle("Project Preludio 2017");
         Scene scene = new Scene(root, 800, 650);
         stage.setScene(scene);
@@ -120,15 +127,14 @@ public class Controller {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ESCAPE) {
-                    player.stop();
-                    player.dispose();
+                    titlePlayer.stop();
                     gotoTitleScreen();
                 }
             }
         });
 
         stage.setResizable(false);
-        player.play();
+        titlePlayer.play();
         stage.show();
     }
 
