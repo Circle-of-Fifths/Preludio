@@ -5,6 +5,8 @@ public class Preludio extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        primaryStage.setTitle("Project Preludio 2017");
+        primaryStage.setResizable(false);
         Controller controller = new Controller(primaryStage);
         controller.gotoTitleScreen();
     }
