@@ -45,8 +45,6 @@ public class Controller {
         Group root = new Group();
         Pane layout = new Pane();
 
-        buttonSound.seek(Duration.ZERO);
-
         Image titleImg = new Image("/Resources/Backgrounds/Title.jpg",
                 800, 650, false, false);
         ImageView titleIv = new ImageView(titleImg);
@@ -95,8 +93,6 @@ public class Controller {
     private void gotoMainMenu() {
         Group root = new Group();
         Pane layout = new Pane();
-
-        buttonSound.seek(Duration.ZERO);
 
         Image mainMenuImg = new Image("/Resources/Backgrounds/"
                  + "circle_of_fifths_colors.png",
@@ -281,6 +277,13 @@ public class Controller {
                     player.seek(Duration.ZERO);
                 }
             });
+        } else {
+            player.setOnEndOfMedia(new Runnable() {
+                @Override
+                public void run() {
+                    player.stop();
+                }
+            });
         }
         return player;
     }
@@ -292,6 +295,7 @@ public class Controller {
     private void setButtonGraphics(Button button) {
         Glow glowEffect = new Glow();
         DropShadow shadow = new DropShadow();
+        button.setEffect(shadow);
         button.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     @Override public void handle(MouseEvent e) {
