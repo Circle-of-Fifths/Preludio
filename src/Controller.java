@@ -23,7 +23,7 @@ public class Controller {
 
     private static Stage stage;
     private MediaPlayer titlePlayer = this.createMusicPlayer(
-            "/Resources/Music/Allegro.mp3", .75, true);
+            "/Resources/Music/BBC5_I.mp3", .75, true);
     private MediaPlayer buttonSound = this.createMusicPlayer(
             "/Resources/Music/buttonSound.mp3", .20, false);
 
@@ -169,10 +169,9 @@ public class Controller {
         MenuBar menuBar = createMenu();
 
         layout.getChildren().addAll(freePlay, play,
-                records, concert, menuBar);
-        root.getChildren().add(layout);
+                records, concert);
+        root.getChildren().addAll(layout, menuBar);
 
-        stage.setTitle("Project Preludio 2017");
         Scene scene = new Scene(root, 800, 650);
         stage.setScene(scene);
 
@@ -280,17 +279,8 @@ public class Controller {
                 new ImageView(saveImage));
         MenuItem load = new MenuItem("Load  ctrl+l",
                 new ImageView(loadImage));
-        MenuItem settings = new MenuItem("Settings",
-                new ImageView(settingsImage));
         MenuItem title = new MenuItem("Return to Title  Esc");
         MenuItem exit = new MenuItem("Exit");
-
-        settings.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                gotoSettings();
-            }
-        });
 
         title.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -309,12 +299,25 @@ public class Controller {
                             response -> System.exit(0));
             }
         });
-        menuFile.getItems().addAll(save, load, settings, title, exit);
+        menuFile.getItems().addAll(save, load, title, exit);
+
+        Menu menuOptions = new Menu("Options");
+        MenuItem settings = new MenuItem("Settings",
+                new ImageView(settingsImage));
+        settings.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                gotoSettings();
+            }
+        });
+        menuOptions.getItems().add(settings);
+
         Menu menuHelp = new Menu("Help");
 
         MenuBar menuBar = new MenuBar();
+        menuBar.setPrefWidth(800.0);
 
-        menuBar.getMenus().addAll(menuFile, menuHelp);
+        menuBar.getMenus().addAll(menuFile, menuOptions, menuHelp);
 
         return menuBar;
     }
