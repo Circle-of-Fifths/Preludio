@@ -15,7 +15,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -45,7 +49,7 @@ public class Controller {
         Group root = new Group();
         Pane layout = new Pane();
 
-        Image titleImg = new Image("/Resources/Backgrounds/Title.jpg",
+        Image titleImg = new Image("/Resources/Backgrounds/title.jpg",
                 800, 650, false, false);
         ImageView titleIv = new ImageView(titleImg);
 
@@ -194,7 +198,7 @@ public class Controller {
 
 
         layout.getChildren().addAll(settings, freePlay, play,
-                records, concert, menuBar);
+                records, concert);
         root.getChildren().add(layout);
 
         stage.setTitle("Project Preludio 2017");
@@ -232,7 +236,20 @@ public class Controller {
      * Sets up and goes to Free Play Mode
      */
     private void gotoFreePlay() {
+        Group root = new Group();
+        Pane layout = new Pane();
 
+        Rectangle whiteKeys[] = new Rectangle[7];
+        for (int i = 0; i < whiteKeys.length; i++) {
+            whiteKeys[i] = new Re
+        }
+
+
+        layout.getChildren().addAll();
+        root.getChildren().add(layout);
+        Scene scene = new Scene(root, 800, 650);
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
