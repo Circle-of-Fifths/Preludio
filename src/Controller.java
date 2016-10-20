@@ -2,9 +2,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
@@ -29,7 +27,7 @@ public class Controller {
 
     private static Stage stage;
     private MediaPlayer titlePlayer = this.createMusicPlayer(
-            "/Resources/Music/Allegro.mp3", .75, true);
+            "/Resources/Music/BBC5_I.mp3", .75, true);
     private MediaPlayer buttonSound = this.createMusicPlayer(
             "/Resources/Music/buttonSound.mp3", .20, false);
 
@@ -104,23 +102,6 @@ public class Controller {
         ImageView titleIv = new ImageView(mainMenuImg);
         root.getChildren().add(titleIv);
 
-        Image settingsImage = new Image("/Resources/Backgrounds/"
-                + "settings.png", 50, 50, false, false);
-
-        Button settings = new Button("", new ImageView(settingsImage));
-        settings.setStyle("-fx-font: 24 serif; -fx-base: #b6e7c9;");
-        settings.setLayoutX(720);
-        settings.setLayoutY(0);
-        this.setButtonGraphics(settings);
-
-        settings.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                buttonSound.play();
-                gotoSettings();
-            }
-        });
-
         Image freePlayImage = new Image("/Resources/Backgrounds/"
                 + "freePlay.jpg", 32, 32, false, false);
 
@@ -189,19 +170,12 @@ public class Controller {
             }
         });
 
-        final Menu menu1 = new Menu("File");
-        final Menu menu2 = new Menu("Options");
-        final Menu menu3 = new Menu("Help");
+        MenuBar menuBar = createMenu();
 
-        MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(menu1, menu2, menu3);
-
-
-        layout.getChildren().addAll(settings, freePlay, play,
+        layout.getChildren().addAll(freePlay, play,
                 records, concert);
-        root.getChildren().add(layout);
+        root.getChildren().addAll(layout, menuBar);
 
-        stage.setTitle("Project Preludio 2017");
         Scene scene = new Scene(root, 800, 650);
         stage.setScene(scene);
 
@@ -221,7 +195,6 @@ public class Controller {
                 }
             }
         });
-
         stage.show();
     }
 
@@ -303,6 +276,67 @@ public class Controller {
             });
         }
         return player;
+    }
+
+    /**
+     * Private Helper method to create a screen's menu
+     * @return returns screen's menu
+     */
+    private MenuBar createMenu() {
+        Image saveImage = new Image("/Resources/Backgrounds/"
+                + "save.png", 32, 32, false, false);
+        Image loadImage = new Image("/Resources/Backgrounds/"
+                + "load.png", 32, 32, false, false);
+
+        Image settingsImage = new Image("/Resources/Backgrounds/"
+                + "settings.png", 32, 32, false, false);
+
+        Menu menuFile = new Menu("File");
+        MenuItem save = new MenuItem("Save  ctrl+s",
+                new ImageView(saveImage));
+        MenuItem load = new MenuItem("Load  ctrl+l",
+                new ImageView(loadImage));
+        MenuItem title = new MenuItem("Return to Title  Esc");
+        MenuItem exit = new MenuItem("Exit");
+
+        title.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                titlePlayer.stop();
+                gotoTitleScreen();
+            }
+        });
+
+        exit.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent t) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Are you sure you want to quit?");
+                alert.showAndWait().filter(response ->
+                        response == ButtonType.OK).ifPresent(
+                            response -> System.exit(0));
+            }
+        });
+        menuFile.getItems().addAll(save, load, title, exit);
+
+        Menu menuOptions = new Menu("Options");
+        MenuItem settings = new MenuItem("Settings",
+                new ImageView(settingsImage));
+        settings.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                gotoSettings();
+            }
+        });
+        menuOptions.getItems().add(settings);
+
+        Menu menuHelp = new Menu("Help");
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.setPrefWidth(800.0);
+
+        menuBar.getMenus().addAll(menuFile, menuOptions, menuHelp);
+
+        return menuBar;
     }
 
     /**
