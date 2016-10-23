@@ -80,7 +80,6 @@ public class Controller {
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ENTER) {
                     buttonSound.play();
-                    titlePlayer.pause();
                     gotoMainMenu();
                 }
             }
@@ -100,10 +99,10 @@ public class Controller {
         Pane layout = new Pane();
 
         Image mainMenuImg = new Image("/Resources/Backgrounds/"
-                 + "circle_of_fifths_colors.png",
+                 + "mainMenu.jpg",
                 800, 650, false, false);
-        ImageView titleIv = new ImageView(mainMenuImg);
-        root.getChildren().add(titleIv);
+        ImageView titleView = new ImageView(mainMenuImg);
+        root.getChildren().add(titleView);
 
         Image freePlayImage = new Image("/Resources/Backgrounds/"
                 + "freePlay.jpg", 32, 32, false, false);
