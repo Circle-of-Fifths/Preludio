@@ -224,7 +224,7 @@ public class Controller {
         layout.getColumnConstraints().addAll(col1, col2, col3, col4);
         layout.setPadding(new Insets(10, 10, 10, 10));
 
-        Label title = new Label("Settings");
+        Label title = new Label("General Settings");
         title.setStyle("-fx-font: 40 serif; -fx-underline: true;");
         layout.add(title, 0, 0, 4, 1);
         layout.setHalignment(title, HPos.CENTER);
@@ -233,7 +233,7 @@ public class Controller {
         layout.add(musVolCaption, 0, 1);
 
         Label musVolValue = new Label(
-                String.valueOf((int)(titlePlayer.getVolume() * 100)));
+                String.valueOf((int) (titlePlayer.getVolume() * 100)));
         layout.add(musVolValue, 1, 1);
 
         Image muteImg = new Image(
@@ -260,10 +260,10 @@ public class Controller {
             @Override
             public void changed(ObservableValue a0, Object a1, Object a2) {
                 musVolValue.textProperty().setValue(
-                        String.valueOf((int)musVolSlider.getValue()));
+                        String.valueOf((int) musVolSlider.getValue()));
                 titlePlayer.volumeProperty().setValue(
                         musVolSlider.getValue() / 100);
-                if(musVolSlider.getValue() == 0) {
+                if (musVolSlider.getValue() == 0) {
                     musMuteButton.setGraphic(musUnmuteIv);
                 } else {
                     musMuteButton.setGraphic(musMuteIv);
@@ -283,11 +283,11 @@ public class Controller {
             }
         });
 
-        Label buttVolCaption = new Label("Button Click Volume:");
+        Label buttVolCaption = new Label("SFX Volume:");
         layout.add(buttVolCaption, 0, 2);
 
         Label buttVolValue = new Label(
-                String.valueOf((int)(buttonSound.getVolume() * 100)));
+                String.valueOf((int) (buttonSound.getVolume() * 100)));
         layout.add(buttVolValue, 1, 2);
 
         ImageView buttMuteIv = new ImageView(muteImg);
@@ -309,10 +309,10 @@ public class Controller {
             @Override
             public void changed(ObservableValue a0, Object a1, Object a2) {
                 buttVolValue.textProperty().setValue(
-                        String.valueOf((int)buttVolSlider.getValue()));
+                        String.valueOf((int) buttVolSlider.getValue()));
                 buttonSound.volumeProperty().setValue(
                         buttVolSlider.getValue() / 100);
-                if(buttVolSlider.getValue() == 0) {
+                if (buttVolSlider.getValue() == 0) {
                     buttMuteButton.setGraphic(buttUnmuteIv);
                 } else {
                     buttMuteButton.setGraphic(buttMuteIv);
@@ -360,7 +360,7 @@ public class Controller {
 
         root.getChildren().add(layout);
 
-        Scene scene = new Scene(root, 800,650);
+        Scene scene = new Scene(root, 800, 650);
         stage.setScene(scene);
     }
 
