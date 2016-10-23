@@ -216,10 +216,17 @@ public class Controller {
         ImageView view = new ImageView(background);
         layout.getChildren().add(view);
 
+        MediaPlayer[] whiteSounds = new MediaPlayer[8];
+        for(int i = 0; i < whiteSounds.length; i++) {
+            String path = "/Resources/Music/notes/white" + i + ".mp3";
+            whiteSounds[i] = createMusicPlayer(path, 1, false);
+            whiteSounds[i].setStartTime(new Duration(200));
+        }
+
         Rectangle[] whiteKeys = new Rectangle[8];
         for (int i = 0; i < whiteKeys.length; i++) {
             whiteKeys[i] = new Rectangle(50, 325, Color.BEIGE);
-            setUpKey(whiteKeys[i], i, Color.BEIGE);
+            setUpKey(whiteKeys[i], i, Color.BEIGE, whiteSounds[i]);
 
             whiteKeys[i].setStroke(Color.BLACK);
             whiteKeys[i].setStrokeWidth(0.5);
@@ -227,18 +234,24 @@ public class Controller {
             layout.getChildren().add(whiteKeys[i]);
         }
 
-        Rectangle[] blackKeys = new Rectangle[5];
+        MediaPlayer[] blackSounds = new MediaPlayer[5];
+        for(int i = 0; i < blackSounds.length; i++) {
+            String path = "/Resources/Music/notes/black" + i + ".mp3";;
+            blackSounds[i] = createMusicPlayer(path, 1, false);
+            blackSounds[i].setStartTime(new Duration(200));
+        }
 
+        Rectangle[] blackKeys = new Rectangle[5];
         for (int i = 0; i < 6; i++) {
             if (i != 2) {
                 if (i > 2) {
                     blackKeys[i - 1] = new Rectangle(37.5, 214.5, Color.BLACK);
-                    this.setUpKey(blackKeys[i - 1], i, Color.BLACK);
+                    this.setUpKey(blackKeys[i - 1], i, Color.BLACK, blackSounds[i - 1]);
 
                     layout.getChildren().add(blackKeys[i - 1]);
                 } else {
                     blackKeys[i] = new Rectangle(37.5, 214.5, Color.BLACK);
-                    this.setUpKey(blackKeys[i], i, Color.BLACK);
+                    this.setUpKey(blackKeys[i], i, Color.BLACK, blackSounds[i]);
 
                     layout.getChildren().add(blackKeys[i]);
                 }
@@ -272,7 +285,7 @@ public class Controller {
      * @param i index of the rectangle object in the keys array
      * @param paint color of the rectangle object
      */
-    private void setUpKey(Rectangle rect, int i, Paint paint) {
+    private void setUpKey(Rectangle rect, int i, Paint paint, MediaPlayer mediaPlayer) {
         rect.setY(300);
         rect.setArcHeight(15);
         rect.setArcWidth(15);
@@ -282,9 +295,22 @@ public class Controller {
             rect.setX(225 + i * 50);
         }
 
+//        rect.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                mediaPlayer.play();
+//                if (paint == Color.BLACK) {
+//                    rect.setFill(Color.DARKBLUE);
+//                } else {
+//                    rect.setFill(Color.DARKGREY);
+//                }
+//            }
+//        });
+
         rect.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                mediaPlayer.play();
                 if (paint == Color.BLACK) {
                     rect.setFill(Color.DARKBLUE);
                 } else {
