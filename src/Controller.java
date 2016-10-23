@@ -37,7 +37,7 @@ public class Controller {
 
     /**
      * Method that sets up and shows
-     * Title screen
+     * title screen
      */
     public void gotoTitleScreen() {
         Group root = new Group();
@@ -180,14 +180,17 @@ public class Controller {
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ESCAPE) {
                     titlePlayer.stop();
-                    buttonSound.play();
                     gotoTitleScreen();
                 } else if (event.getCode() == KeyCode.LEFT) {
                     // Code for when Left Arrow pressed
-                    buttonSound.play();
+                    concert.requestFocus();
                 } else if (event.getCode() == KeyCode.RIGHT) {
                     // Code for when Right Arrow pressed
-                    buttonSound.play();
+                    freePlay.requestFocus();
+                } else if (event.getCode() == KeyCode.UP) {
+                    play.requestFocus();
+                } else if (event.getCode() == KeyCode.DOWN) {
+                    records.requestFocus();
                 }
             }
         });

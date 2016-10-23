@@ -20,8 +20,9 @@ public class Preludio extends Application {
                 alert.showAndWait().filter(response ->
                         response == ButtonType.OK).ifPresent(
                             response -> System.exit(0));
+                event.consume();
             }
-        }); // Note: Fix issue with hitting cancel closes program anyway
+        });
 
         Controller controller = new Controller(primaryStage);
         controller.gotoTitleScreen();
