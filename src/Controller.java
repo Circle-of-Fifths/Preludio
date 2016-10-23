@@ -1,5 +1,9 @@
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -202,7 +206,162 @@ public class Controller {
      * Sets up and goes to Settings Screen
      */
     private void gotoSettings() {
+        Group root = new Group();
+        GridPane layout = new GridPane();
+        layout.setVgap(20);
+        layout.setHgap(10);
+        ColumnConstraints col1 = new ColumnConstraints();
+        col1.setPercentWidth(15);
+        ColumnConstraints col2 = new ColumnConstraints();
+        col2.setPercentWidth(10);
+        col2.setHalignment(HPos.CENTER);
+        ColumnConstraints col3 = new ColumnConstraints();
+        col3.setPercentWidth(65);
+        col3.setHalignment(HPos.CENTER);
+        ColumnConstraints col4 = new ColumnConstraints();
+        col4.setPercentWidth(10);
+        col4.setHalignment(HPos.CENTER);
+        layout.getColumnConstraints().addAll(col1, col2, col3, col4);
+        layout.setPadding(new Insets(10, 10, 10, 10));
 
+        Label title = new Label("Settings");
+        title.setStyle("-fx-font: 40 serif; -fx-underline: true;");
+        layout.add(title, 0, 0, 4, 1);
+        layout.setHalignment(title, HPos.CENTER);
+
+        Label musVolCaption = new Label("Music Volume:");
+        layout.add(musVolCaption, 0, 1);
+
+        Label musVolValue = new Label(
+                String.valueOf((int)(titlePlayer.getVolume() * 100)));
+        layout.add(musVolValue, 1, 1);
+
+        Image muteImg = new Image(
+                "/Resources/Backgrounds/muteIcon.jpg", 20, 20, true, true);
+        Image unmuteImg = new Image(
+                "/Resources/Backgrounds/unmuteIcon.png", 20, 20, true, true);
+
+        ImageView musMuteIv = new ImageView(muteImg);
+        ImageView musUnmuteIv = new ImageView(unmuteImg);
+        Button musMuteButton = new Button();
+        musMuteButton.setGraphic(musMuteIv);
+        layout.add(musMuteButton, 3, 1);
+
+        Slider musVolSlider = new Slider(0, 100, titlePlayer.getVolume() * 100);
+        musVolSlider.setShowTickLabels(true);
+        musVolSlider.setShowTickMarks(true);
+        musVolSlider.setMajorTickUnit(10);
+        musVolSlider.setMinorTickCount(1);
+        musVolSlider.setBlockIncrement(1);
+        musVolSlider.setPrefWidth(500);
+        layout.add(musVolSlider, 2, 1);
+
+        musVolSlider.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue a0, Object a1, Object a2) {
+                musVolValue.textProperty().setValue(
+                        String.valueOf((int)musVolSlider.getValue()));
+                titlePlayer.volumeProperty().setValue(
+                        musVolSlider.getValue() / 100);
+                if(musVolSlider.getValue() == 0) {
+                    musMuteButton.setGraphic(musUnmuteIv);
+                } else {
+                    musMuteButton.setGraphic(musMuteIv);
+                }
+            }
+        });
+
+        musMuteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                buttonSound.play();
+                if (musVolSlider.getValue() == 0) {
+                    musVolSlider.valueProperty().setValue(50);
+                } else {
+                    musVolSlider.valueProperty().setValue(0);
+                }
+            }
+        });
+
+        Label buttVolCaption = new Label("Button Click Volume:");
+        layout.add(buttVolCaption, 0, 2);
+
+        Label buttVolValue = new Label(
+                String.valueOf((int)(buttonSound.getVolume() * 100)));
+        layout.add(buttVolValue, 1, 2);
+
+        ImageView buttMuteIv = new ImageView(muteImg);
+        ImageView buttUnmuteIv = new ImageView(unmuteImg);
+        Button buttMuteButton = new Button();
+        buttMuteButton.setGraphic(buttMuteIv);
+        layout.add(buttMuteButton, 3, 2);
+
+        Slider buttVolSlider = new Slider(0, 100, buttonSound.getVolume() * 100);
+        buttVolSlider.setShowTickLabels(true);
+        buttVolSlider.setShowTickMarks(true);
+        buttVolSlider.setMajorTickUnit(10);
+        buttVolSlider.setMinorTickCount(1);
+        buttVolSlider.setBlockIncrement(1);
+        buttVolSlider.setPrefWidth(500);
+        layout.add(buttVolSlider, 2, 2);
+
+        buttVolSlider.valueProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue a0, Object a1, Object a2) {
+                buttVolValue.textProperty().setValue(
+                        String.valueOf((int)buttVolSlider.getValue()));
+                buttonSound.volumeProperty().setValue(
+                        buttVolSlider.getValue() / 100);
+                if(buttVolSlider.getValue() == 0) {
+                    buttMuteButton.setGraphic(buttUnmuteIv);
+                } else {
+                    buttMuteButton.setGraphic(buttMuteIv);
+                }
+            }
+        });
+
+        buttMuteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                buttonSound.play();
+                if (buttVolSlider.getValue() == 0) {
+                    buttVolSlider.valueProperty().setValue(20);
+                } else {
+                    buttVolSlider.valueProperty().setValue(0);
+                }
+            }
+        });
+
+        HBox buttonBox = new HBox();
+
+        Button resetButton = new Button("Reset to Default");
+        resetButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                buttonSound.play();
+                musVolSlider.setValue(75);
+                buttVolSlider.setValue(20);
+            }
+        });
+        buttonBox.getChildren().add(resetButton);
+
+        Button okButton = new Button("OK");
+        okButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                buttonSound.play();
+                gotoMainMenu();
+            }
+        });
+        buttonBox.getChildren().add(okButton);
+
+        layout.add(buttonBox, 0, 3, 4, 1);
+
+
+        root.getChildren().add(layout);
+
+        Scene scene = new Scene(root, 800,650);
+        stage.setScene(scene);
     }
 
     /**
