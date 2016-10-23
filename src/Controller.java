@@ -85,6 +85,7 @@ public class Controller {
             }
         });
 
+        titlePlayer.stop();
         titlePlayer.play();
         stage.show();
     }
@@ -217,7 +218,7 @@ public class Controller {
         layout.getChildren().add(view);
 
         MediaPlayer[] whiteSounds = new MediaPlayer[8];
-        for(int i = 0; i < whiteSounds.length; i++) {
+        for (int i = 0; i < whiteSounds.length; i++) {
             String path = "/Resources/Music/notes/white" + i + ".mp3";
             whiteSounds[i] = createMusicPlayer(path, 1, false);
             whiteSounds[i].setStartTime(new Duration(200));
@@ -235,8 +236,8 @@ public class Controller {
         }
 
         MediaPlayer[] blackSounds = new MediaPlayer[5];
-        for(int i = 0; i < blackSounds.length; i++) {
-            String path = "/Resources/Music/notes/black" + i + ".mp3";;
+        for (int i = 0; i < blackSounds.length; i++) {
+            String path = "/Resources/Music/notes/black" + i + ".mp3";
             blackSounds[i] = createMusicPlayer(path, 1, false);
             blackSounds[i].setStartTime(new Duration(200));
         }
@@ -284,6 +285,7 @@ public class Controller {
      * @param rect rectangle object being passed in
      * @param i index of the rectangle object in the keys array
      * @param paint color of the rectangle object
+     * @param mediaPlayer sound connceted to key
      */
     private void setUpKey(Rectangle rect, int i, Paint paint, MediaPlayer mediaPlayer) {
         rect.setY(300);
@@ -295,17 +297,17 @@ public class Controller {
             rect.setX(225 + i * 50);
         }
 
-//        rect.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                mediaPlayer.play();
-//                if (paint == Color.BLACK) {
-//                    rect.setFill(Color.DARKBLUE);
-//                } else {
-//                    rect.setFill(Color.DARKGREY);
-//                }
-//            }
-//        });
+        /* rect.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                mediaPlayer.play();
+                if (paint == Color.BLACK) {
+                    rect.setFill(Color.DARKBLUE);
+                } else {
+                    rect.setFill(Color.DARKGREY);
+                }
+            }
+        }); */
 
         rect.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -322,6 +324,7 @@ public class Controller {
         rect.setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                mediaPlayer.stop();
                 rect.setFill(paint);
             }
         });
