@@ -13,9 +13,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.w3c.dom.css.Rect;
 
 import java.net.URL;
 
@@ -43,7 +48,7 @@ public class Controller {
         Group root = new Group();
         Pane layout = new Pane();
 
-        Image titleImg = new Image("/Resources/Backgrounds/Title.jpg",
+        Image titleImg = new Image("/Resources/Backgrounds/title.jpg",
                 800, 650, false, false);
         ImageView titleIv = new ImageView(titleImg);
 
@@ -208,7 +213,75 @@ public class Controller {
      * Sets up and goes to Free Play Mode
      */
     private void gotoFreePlay() {
+        Group root = new Group();
+        Pane layout = new Pane();
 
+//        DropShadow shadow = new DropShadow();
+
+        Rectangle whiteKeys[] = new Rectangle[7];
+        for (int i = 0; i < whiteKeys.length; i++) {
+            whiteKeys[i] = new Rectangle(50, 325, Color.BEIGE);
+            setUpKey(whiteKeys[i], i, Color.BEIGE);
+
+            whiteKeys[i].setStroke(Color.BLACK);
+            whiteKeys[i].setStrokeWidth(0.5);
+
+            layout.getChildren().add(whiteKeys[i]);
+        }
+
+        Rectangle blackKeys[] = new Rectangle[5];
+
+        for (int i = 0; i < 6; i++) {
+            if (i != 2) {
+                if (i > 2) {
+                    blackKeys[i-1] = new Rectangle(37.5, 214.5, Color.BLACK);
+                    setUpKey(blackKeys[i-1], i, Color.BLACK);
+
+                    layout.getChildren().add(blackKeys[i-1]);
+                } else {
+                    blackKeys[i] = new Rectangle(37.5, 214.5, Color.BLACK);
+                    setUpKey(blackKeys[i], i, Color.BLACK);
+
+                    layout.getChildren().add(blackKeys[i]);
+                }
+            }
+        }
+
+
+        //layout.getChildren().addAll();
+        root.getChildren().add(layout);
+        Scene scene = new Scene(root, 800, 650);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void setUpKey(Rectangle rect, int i, Paint paint) {
+        rect.setY(300);
+        rect.setArcHeight(15);
+        rect.setArcWidth(15);
+        if (paint == Color.BLACK) {
+            rect.setX(262.5 + i*50);
+        } else if (paint == Color.BEIGE) {
+            rect.setX(225 + i*50);
+        }
+
+        rect.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (paint == Color.BLACK) {
+                    rect.setFill(Color.DARKBLUE);
+                } else {
+                    rect.setFill(Color.DARKGREY);
+                }
+            }
+        });
+
+        rect.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                rect.setFill(paint);
+            }
+        });
     }
 
     /**
