@@ -378,7 +378,8 @@ public class Controller {
         ImageView view = new ImageView(background);
 
         Button backButton = new Button("", new ImageView(back));
-        backButton.setStyle("-fx-font: 24 serif; -fx-base: #b6e7c9;");
+        //backButton.setStyle("-fx-font: 24 serif; -fx-base: #b6e7c9;");
+        backButton.setStyle("-fx-font: 24 serif;");
         backButton.setLayoutX(0);
         backButton.setLayoutY(0);
         backButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -585,6 +586,7 @@ public class Controller {
         title.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                buttonSound.play();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                         "Are you sure you want to return to Title?");
                 alert.showAndWait().filter(response ->
@@ -595,6 +597,7 @@ public class Controller {
 
         exit.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent t) {
+                buttonSound.play();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                         "Are you sure you want to quit?");
                 alert.showAndWait().filter(response ->
@@ -610,6 +613,7 @@ public class Controller {
         settings.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                buttonSound.play();
                 gotoSettings();
             }
         });
