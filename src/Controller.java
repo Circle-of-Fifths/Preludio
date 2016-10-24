@@ -373,8 +373,27 @@ public class Controller {
 
         Image background = new Image("/Resources/Backgrounds/"
                 + "freePlayBackground.jpg", 800, 650, false, false);
+        Image back = new Image("/Resources/Backgrounds/"
+                + "backIcon.jpg", 32, 32, false, false);
         ImageView view = new ImageView(background);
-        layout.getChildren().add(view);
+
+        Button backButton = new Button("", new ImageView(back));
+        backButton.setStyle("-fx-font: 24 serif; -fx-base: #b6e7c9;");
+        backButton.setLayoutX(0);
+        backButton.setLayoutY(0);
+        backButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                buttonSound.play();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Are you sure you want to exit Free Play?");
+                alert.showAndWait().filter(response ->
+                        response == ButtonType.OK).ifPresent(
+                            response -> gotoMainMenu());
+            }
+        });
+
+        layout.getChildren().addAll(view, backButton);
 
         MediaPlayer[] whiteSounds = new MediaPlayer[8];
         for (int i = 0; i < whiteSounds.length; i++) {
