@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" style="-fx-background-image: url(/view/res/freePlayBackground.jpg); -fx-background-size: stretch;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.freePlayController">
+   <center>
+      <GridPane fx:id="keys_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="400.0" style="-fx-background-image: url(/view/res/freePlayBackground.jpg); -fx-background-size: stretch;" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="25.0" prefWidth="25.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="-Infinity" prefHeight="214.5" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="-Infinity" prefHeight="111.5" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Rectangle fx:id="white0" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="50.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowSpan="2" />
+            <Rectangle fx:id="white1" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="50.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowSpan="2" />
+            <Rectangle fx:id="white2" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="50.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowSpan="2" />
+            <Rectangle fx:id="white3" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="50.0" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowSpan="2" />
+            <Rectangle fx:id="white4" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="50.0" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowSpan="2" />
+            <Rectangle fx:id="white5" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="50.0" GridPane.columnIndex="10" GridPane.columnSpan="2" GridPane.rowSpan="2" />
+            <Rectangle fx:id="white6" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="50.0" GridPane.columnIndex="12" GridPane.columnSpan="2" GridPane.rowSpan="2" />
+            <Rectangle fx:id="white7" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="50.0" GridPane.columnIndex="14" GridPane.columnSpan="2" GridPane.rowSpan="2" />
+            <Rectangle fx:id="black0" arcHeight="15.0" arcWidth="15.0" height="214.5" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="37.5" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Rectangle fx:id="black1" arcHeight="15.0" arcWidth="15.0" height="214.5" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="37.5" GridPane.columnIndex="3" GridPane.columnSpan="2" />
+            <Rectangle fx:id="black2" arcHeight="15.0" arcWidth="15.0" height="214.5" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="37.5" GridPane.columnIndex="7" GridPane.columnSpan="2" />
+            <Rectangle fx:id="black3" arcHeight="15.0" arcWidth="15.0" height="214.5" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="37.5" GridPane.columnIndex="9" GridPane.columnSpan="2" />
+            <Rectangle fx:id="black4" arcHeight="15.0" arcWidth="15.0" height="214.5" onMousePressed="#playNote" onMouseReleased="#releaseNote" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="37.5" GridPane.columnIndex="11" GridPane.columnSpan="2" />
+         </children>
+      </GridPane>
+   </center>
+   <top>
+      <Button fx:id="back_button" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="50.0" BorderPane.alignment="TOP_LEFT">
+         <font>
+            <Font name="Serif Regular" size="24.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/backIcon.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </top>
+</BorderPane>
