@@ -54,7 +54,7 @@ public class Preludio extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         stage.setTitle("Project Preludio 2017");
-        stage.setResizable(false);
+        //stage.setResizable(false);
 
         primaryStage.setOnCloseRequest((WindowEvent e) ->{
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,

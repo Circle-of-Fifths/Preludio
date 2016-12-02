@@ -103,6 +103,20 @@ public class mainMenuController {
 
 
     /**
+     * Sets up and shows the Settings Screen.
+     *
+     * @param event Event caused by the user clicking the Settings Button.
+     *
+     * @throws IOException if the Settings fxml file cannot be found.
+     */
+    @FXML
+    void goToSettings(ActionEvent event) throws IOException {
+        Preludio.getInstance().buttonSound.play();
+        Preludio.getInstance().setNewScene("/view/fxml/settings.fxml");
+    }
+
+
+    /**
      *  Asks user if they are sure they want to leave, then if yes, sets up
      *  and shows the Title Screen.
      *
