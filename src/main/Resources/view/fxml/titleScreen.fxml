@@ -7,9 +7,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" style="-fx-background-image: url(/view/res/title.jpg); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.titleScreenController">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" style="-fx-background-image: url(/view/res/title.jpg); -fx-background-size: cover;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.titleScreenController">
    <children>
-      <Button id="start" fx:id="start_button" cacheShape="false" layoutX="345.0" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#start" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" prefHeight="100.0" prefWidth="150.0" style="-fx-base: #b6e7c9; -fx-background-radius: 132;" text="START" textAlignment="RIGHT" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="350.0">
+      <Button id="start" fx:id="start_button" alignment="CENTER" cacheShape="false" layoutX="345.0" layoutY="350.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#start" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" prefHeight="100.0" prefWidth="160.0" style="-fx-base: #b6e7c9; -fx-background-radius: 132;" text="START" textAlignment="RIGHT" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="340.0">
          <font>
             <Font name="Serif Regular" size="32.0" />
          </font>

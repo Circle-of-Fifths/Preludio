@@ -32,7 +32,7 @@ public class mainMenuController {
      */
     @FXML
     void mouseEnter(MouseEvent event) {
-        ((Button)event.getSource()).setEffect(new Glow());
+        ((Button) event.getSource()).setEffect(new Glow());
     }
 
 
@@ -43,7 +43,7 @@ public class mainMenuController {
      */
     @FXML
     void mouseExit(MouseEvent event) {
-        ((Button)event.getSource()).setEffect(new DropShadow());
+        ((Button) event.getSource()).setEffect(new DropShadow());
     }
 
     /**
@@ -99,6 +99,7 @@ public class mainMenuController {
     void goToConcert(ActionEvent event) throws IOException {
         Preludio.getInstance().buttonSound.play();
         Preludio.getInstance().setNewScene("/view/fxml/concert.fxml");
+        Preludio.getInstance().titlePlayer.stop();
     }
 
 
