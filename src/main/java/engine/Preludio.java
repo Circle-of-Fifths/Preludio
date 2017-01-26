@@ -114,12 +114,4 @@ public class Preludio extends Application {
         }
         return player;
     }
-
-    /**
-     * Getter method for stage
-     * @return Stage parameter
-     */
-    public Stage getStage() {
-        return stage;
-    }
 }

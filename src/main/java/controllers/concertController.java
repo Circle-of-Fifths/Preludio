@@ -21,11 +21,16 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Sequence;
 
+import org.jfugue.midi.MidiFileManager;
 import org.jfugue.midi.MidiParser;
 import org.jfugue.parser.ParserListenerAdapter;
+import org.jfugue.pattern.Pattern;
+import org.jfugue.player.Player;
 import org.jfugue.theory.Note;
 
 /**
@@ -93,14 +98,14 @@ public class concertController {
     private HashMap<Rectangle, MediaPlayer> blackKeys = new HashMap();
 
     MidiParser parser = new MidiParser();
-    MyParserListener listener = new MyParserListener();
-
+    MyParserListener listener;
 
     /**
      * Sets up the Free Play screen and the interactive piano keys.
      */
     @FXML
     public void initialize() {
+        System.out.println("i'm initializing");
         for (Node key : keys_gridPane.getChildren()) {
             int i;
             int col = keys_gridPane.getColumnIndex(key);
@@ -125,6 +130,7 @@ public class concertController {
                 blackKeys.get(key).setStartTime(new Duration(200));
             }
         }
+        listener = new MyParserListener(whiteKeys,blackKeys);
     }
 
 
@@ -206,10 +212,23 @@ public class concertController {
             }
         });
 
-        if (midiFile[0] != null && midiFile[0].getName().contains(".midi")) {
+        if (midiFile[0] != null && midiFile[0].getName().contains(".mid")) {
+            System.out.println("got the midi file");
             // Do jFugue stuff here
             parser.addParserListener(listener);
-            parser.parse(MidiSystem.getSequence(midiFile[0]));
+            try {
+                //Pattern pattern = MidiFileManager.loadPatternFromMidi(midiFile[0]);
+                Sequence sequence = MidiFileManager.load(midiFile[0]);
+                Player player = new Player();
+                //pattern.measure(listener);
+                //listener.afterParsingFinished();
+                parser.parse(sequence);
+                player.play(sequence);
+                System.out.println("playing");
+            } catch (Exception e) {
+                System.out.println("caught error");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -238,71 +257,110 @@ public class concertController {
 
 class MyParserListener extends ParserListenerAdapter {
 
-    @FXML
-    private Rectangle white0;
+//    @FXML
+//    private GridPane keys_gridPane;
+//
+//    @FXML
+//    private Rectangle white0;
+//
+//    @FXML
+//    private Rectangle white1;
+//
+//    @FXML
+//    private Rectangle white2;
+//
+//    @FXML
+//    private Rectangle white3;
+//
+//    @FXML
+//    private Rectangle white4;
+//
+//    @FXML
+//    private Rectangle white5;
+//
+//    @FXML
+//    private Rectangle white6;
+//
+//    @FXML
+//    private Rectangle white7;
+//
+//    @FXML
+//    private Rectangle black0;
+//
+//    @FXML
+//    private Rectangle black1;
+//
+//    @FXML
+//    private Rectangle black2;
+//
+//    @FXML
+//    private Rectangle black3;
+//
+//    @FXML
+//    private Rectangle black4;
 
-    @FXML
-    private Rectangle white1;
+    Object[] whiteKeys, blackKeys;
 
-    @FXML
-    private Rectangle white2;
-
-    @FXML
-    private Rectangle white3;
-
-    @FXML
-    private Rectangle white4;
-
-    @FXML
-    private Rectangle white5;
-
-    @FXML
-    private Rectangle white6;
-
-    @FXML
-    private Rectangle white7;
-
-    @FXML
-    private Rectangle black0;
-
-    @FXML
-    private Rectangle black1;
-
-    @FXML
-    private Rectangle black2;
-
-    @FXML
-    private Rectangle black3;
-
-    @FXML
-    private Rectangle black4;
+    public MyParserListener(HashMap<Rectangle, MediaPlayer> white, HashMap<Rectangle, MediaPlayer> black) {
+        super();
+        whiteKeys = white.keySet().toArray();
+        System.out.println(white.keySet().size());
+        blackKeys = black.keySet().toArray();
+        System.out.println(black.keySet().size());
+    }
 
     @Override
-    public void onNoteParsed(Note note) {
-        if (note.getPositionInOctave() == 0) { // C note
-            white0.setFill(Color.DARKBLUE);
-            white0.setFill(Color.BEIGE);
-        } else if (note.getPositionInOctave() == 1) { // D note
-            white1.setFill(Color.DARKBLUE);
-            white1.setFill(Color.BEIGE);
-        } else if (note.getPositionInOctave() == 2) { // E note
-            white2.setFill(Color.DARKBLUE);
-            white2.setFill(Color.BEIGE);
-        } else if (note.getPositionInOctave() == 3) { // F note
-            white3.setFill(Color.DARKBLUE);
-            white3.setFill(Color.BEIGE);
-        } else if (note.getPositionInOctave() == 4) { // G note
-            white4.setFill(Color.DARKBLUE);
-            white4.setFill(Color.BEIGE);
-        } else if (note.getPositionInOctave() == 5) { // A note
-            white5.setFill(Color.DARKBLUE);
-            white5.setFill(Color.BEIGE);
-        } else if (note.getPositionInOctave() == 6) { // B note
-            white6.setFill(Color.DARKBLUE);
-            white6.setFill(Color.BEIGE);
-        } else if (note.getPositionInOctave() == 7) { // High C note
-            white7.setFill(Color.DARKBLUE);
-            white7.setFill(Color.BEIGE);
-        }
+    public void onNotePressed(Note note) {
+        String tone = note.getToneString();
+        System.out.printf("tone: %s\n", tone);
+//        int i = note.getPositionInOctave();
+//        i -= 5;
+//        Rectangle whiteKey = (Rectangle) whiteKeys[i];
+//        whiteKey.setFill(Color.DARKBLUE);
+//        if (note.getPositionInOctave() == 0) { // C note
+//            whiteKeys[0].setFill(Color.DARKBLUE);
+//        } else if (note.getPositionInOctave() == 1) { // D note
+//            white1.setFill(Color.DARKBLUE);
+//        } else if (note.getPositionInOctave() == 2) { // E note
+//            white2.setFill(Color.DARKBLUE);
+//        } else if (note.getPositionInOctave() == 3) { // F note
+//            white3.setFill(Color.DARKBLUE);
+//        } else if (note.getPositionInOctave() == 4) { // G note
+//            System.out.println("Note captured");
+//            white4.setFill(Color.DARKBLUE);
+//        } else if (note.getPositionInOctave() == 5) { // A note
+//            white5.setFill(Color.DARKBLUE);
+//        } else if (note.getPositionInOctave() == 6) { // B note
+//            white6.setFill(Color.DARKBLUE);
+//        } else if (note.getPositionInOctave() == 7) { // High C note
+//            white7.setFill(Color.DARKBLUE);
+//        }
+    }
+
+    @Override
+    public void onNoteReleased(Note note) {
+        String tone = note.getToneString();
+        System.out.printf("tone: %s\n", tone);
+//        int i = note.getPositionInOctave();
+//        i -= 5;
+//        Rectangle whiteKey = (Rectangle) whiteKeys[i];
+//        whiteKey.setFill(Color.BEIGE);
+//        if (note.getPositionInOctave() == 0) { // C note
+//            white0.setFill(Color.BEIGE);
+//        } else if (note.getPositionInOctave() == 1) { // D note
+//            white1.setFill(Color.BEIGE);
+//        } else if (note.getPositionInOctave() == 2) { // E note
+//            white2.setFill(Color.BEIGE);
+//        } else if (note.getPositionInOctave() == 3) { // F note
+//            white3.setFill(Color.BEIGE);
+//        } else if (note.getPositionInOctave() == 4) { // G note
+//            white4.setFill(Color.BEIGE);
+//        } else if (note.getPositionInOctave() == 5) { // A note
+//            white5.setFill(Color.BEIGE);
+//        } else if (note.getPositionInOctave() == 6) { // B note
+//            white6.setFill(Color.BEIGE);
+//        } else if (note.getPositionInOctave() == 7) { // High C note
+//            white7.setFill(Color.BEIGE);
+//        }
     }
 }
