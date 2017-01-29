@@ -102,6 +102,7 @@ public class concertController {
 
     MidiParser parser = new MidiParser();
     MyParserListener listener;
+    Player player = new Player();
 
     /**
      * Sets up the Free Play screen and the interactive piano keys.
@@ -144,6 +145,7 @@ public class concertController {
      */
     @FXML
     void goBack(ActionEvent event) {
+        player.getManagedPlayer().finish();
         Preludio.getInstance().buttonSound.play();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "Are you sure you want to exit Free Play?");
@@ -202,6 +204,7 @@ public class concertController {
 
     @FXML
     void selectSong(ActionEvent event) throws InvalidMidiDataException, IOException {
+        player.getManagedPlayer().finish();
         final File[] midiFile = new File[1];
         fileChooser.setTitle("Project Preludio 2017: Open MIDI File");
         //fileChooser.setInitialDirectory(startDir);
@@ -228,7 +231,6 @@ public class concertController {
                     } catch (InvalidMidiDataException e) {
                         e.printStackTrace();
                     }
-                    Player player = new Player();
                     System.out.println("playing");
                     if (sequence2 != null) {
                         player.play(sequence2);
