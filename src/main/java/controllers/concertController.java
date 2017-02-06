@@ -25,9 +25,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Sequence;
+import javax.sound.midi.*;
 
 import org.jfugue.midi.MidiFileManager;
 import org.jfugue.midi.MidiParser;
@@ -97,12 +95,47 @@ public class concertController {
     private static int numWhiteKeys = 8;
     private static int numBlackKeys = 5;
 
+    Object[] whiteKeysArr, blackKeysArr;
+    private Map<String, Rectangle> noteNames;
+
     private HashMap<Rectangle, MediaPlayer> whiteKeys = new HashMap();
     private HashMap<Rectangle, MediaPlayer> blackKeys = new HashMap();
+
+    private static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
     MidiParser parser = new MidiParser();
     MyParserListener listener;
     Player player = new Player();
+
+    /*
+    Sets up the midi file to be played
+     */
+    public static final void addNotesToTrack(
+            Track track,
+            Track trk) throws InvalidMidiDataException {
+        for (int ii = 0; ii < track.size(); ii++) {
+            MidiEvent me = track.get(ii);
+            MidiMessage mm = me.getMessage();
+            if (mm instanceof ShortMessage) {
+                ShortMessage sm = (ShortMessage) mm;
+                int command = sm.getCommand();
+                int com = -1;
+                if (command == ShortMessage.NOTE_ON) {
+                    com = 1;
+                } else if (command == ShortMessage.NOTE_OFF) {
+                    com = 2;
+                }
+                if (com > 0) {
+                    byte[] b = sm.getMessage();
+                    int l = (b == null ? 0 : b.length);
+                    MetaMessage metaMessage = new MetaMessage(com, b, l);
+                    MidiEvent me2 = new MidiEvent(metaMessage, me.getTick());
+                    trk.add(me2);
+                }
+            }
+        }
+    }
+
 
     /**
      * Sets up the Free Play screen and the interactive piano keys.
@@ -134,6 +167,28 @@ public class concertController {
                 blackKeys.get(key).setStartTime(new Duration(200));
             }
         }
+
+        whiteKeysArr = whiteKeys.keySet().toArray();
+        blackKeysArr = blackKeys.keySet().toArray();
+
+        noteNames = new HashMap<>();
+        noteNames.put("C", (Rectangle) whiteKeysArr[0]);
+        noteNames.put("C#", (Rectangle) blackKeysArr[0]);
+        noteNames.put("Db", (Rectangle) blackKeysArr[0]);
+        noteNames.put("D", (Rectangle) whiteKeysArr[1]);
+        noteNames.put("D#", (Rectangle) blackKeysArr[1]);
+        noteNames.put("Eb", (Rectangle) blackKeysArr[1]);
+        noteNames.put("E", (Rectangle) whiteKeysArr[2]);
+        noteNames.put("F", (Rectangle) whiteKeysArr[3]);
+        noteNames.put("F#", (Rectangle) blackKeysArr[2]);
+        noteNames.put("Gb", (Rectangle) blackKeysArr[2]);
+        noteNames.put("G", (Rectangle) whiteKeysArr[4]);
+        noteNames.put("G#", (Rectangle) blackKeysArr[3]);
+        noteNames.put("Ab", (Rectangle) blackKeysArr[3]);
+        noteNames.put("A", (Rectangle) whiteKeysArr[5]);
+        noteNames.put("A#", (Rectangle) blackKeysArr[4]);
+        noteNames.put("Bb", (Rectangle) blackKeysArr[4]);
+        noteNames.put("B", (Rectangle) whiteKeysArr[6]);
     }
 
 
@@ -203,7 +258,7 @@ public class concertController {
 
 
     @FXML
-    void selectSong(ActionEvent event) throws InvalidMidiDataException, IOException {
+    void selectSong(ActionEvent event) throws InvalidMidiDataException, IOException, MidiUnavailableException {
         player.getManagedPlayer().finish();
         final File[] midiFile = new File[1];
         fileChooser.setTitle("Project Preludio 2017: Open MIDI File");
@@ -219,40 +274,75 @@ public class concertController {
 
         if (midiFile[0] != null && midiFile[0].getName().contains(".mid")) {
             System.out.println("got the midi file");
-            // Do jFugue stuff here
-            new Thread() {
-                public void run() {
-                    //Pattern pattern = MidiFileManager.loadPatternFromMidi(midiFile[0]);
-                    Sequence sequence2 = null;
-                    try {
-                        sequence2 = MidiFileManager.load(midiFile[0]);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InvalidMidiDataException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("playing");
-                    if (sequence2 != null) {
-                        player.play(sequence2);
-                    }
-                }
-            }.start();
 
-            new Thread() {
-                public void run() {
-                    listener = new MyParserListener(this, whiteKeys,blackKeys);
-                    Sequence sequence = null;
-                    try {
-                        sequence = MidiFileManager.load(midiFile[0]);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InvalidMidiDataException e) {
-                        e.printStackTrace();
+            Sequence sequence = MidiSystem.getSequence(midiFile[0]);
+
+            Track[] tracks = sequence.getTracks();
+            Track trk = sequence.createTrack();
+            for (Track track : tracks) {
+                addNotesToTrack(track, trk);
+            }
+
+            Sequencer sequencer = MidiSystem.getSequencer();
+            sequencer.open();
+            MetaEventListener mel = new MetaEventListener() {
+                @Override
+                public void meta(MetaMessage meta) {
+                    final int type = meta.getType();
+                    if (type == 1) {
+                        noteNames.get(NOTE_NAMES[meta.getData()[1] % 12]).setFill(Color.DARKBLUE);
+                        System.out.printf("Note: %s, Octave: %d\n", NOTE_NAMES[meta.getData()[1] % 12], (meta.getData()[1] / 12) - 1);
+                    } else if (type == 2) {
+                        if (NOTE_NAMES[meta.getData()[1] % 12].contains("#")) {
+                            noteNames.get(NOTE_NAMES[meta.getData()[1] % 12]).setFill(Color.BLACK);
+                        } else {
+                            noteNames.get(NOTE_NAMES[meta.getData()[1] % 12]).setFill(Color.BEIGE);
+                        }
+                        System.out.printf("Note off: %s, Octave: %d\n", NOTE_NAMES[meta.getData()[1] % 12], (meta.getData()[1] / 12) - 1);
                     }
-                    parser.addParserListener(listener);
-                    parser.parse(sequence);
                 }
-            }.start();
+            };
+
+            sequencer.addMetaEventListener(mel);
+
+            sequencer.setSequence(sequence);
+            sequencer.start();
+
+
+//            // Do jFugue stuff here
+//            new Thread() {
+//                public void run() {
+//                    //Pattern pattern = MidiFileManager.loadPatternFromMidi(midiFile[0]);
+//                    Sequence sequence2 = null;
+//                    try {
+//                        sequence2 = MidiFileManager.load(midiFile[0]);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (InvalidMidiDataException e) {
+//                        e.printStackTrace();
+//                    }
+//                    System.out.println("playing");
+//                    if (sequence2 != null) {
+//                        player.play(sequence2);
+//                    }
+//                }
+//            }.start();
+//
+//            new Thread() {
+//                public void run() {
+//                    listener = new MyParserListener(this, whiteKeys,blackKeys);
+//                    Sequence sequence = null;
+//                    try {
+//                        sequence = MidiFileManager.load(midiFile[0]);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (InvalidMidiDataException e) {
+//                        e.printStackTrace();
+//                    }
+//                    parser.addParserListener(listener);
+//                    parser.parse(sequence);
+//                }
+//            }.start();
         }
     }
 

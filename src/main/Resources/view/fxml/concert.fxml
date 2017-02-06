@@ -69,7 +69,7 @@
       </Button>
    </top>
    <bottom>
-      <Button fx:id="select_button" alignment="CENTER" mnemonicParsing="false" onAction="#selectSong" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" prefHeight="40.0" prefWidth="200.0" text="Select Song" textAlignment="CENTER" translateY="-20.0" wrapText="true" BorderPane.alignment="BOTTOM_CENTER">
+      <Button fx:id="select_button" alignment="CENTER" mnemonicParsing="false" onAction="#selectSong" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" prefHeight="40.0" prefWidth="200.0" text="Select Song" textAlignment="CENTER" translateY="-45.0" wrapText="true" BorderPane.alignment="BOTTOM_CENTER">
          <font>
             <Font name="Verdana" size="20.0" />
          </font>

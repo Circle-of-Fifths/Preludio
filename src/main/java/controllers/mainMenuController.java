@@ -70,7 +70,8 @@ public class mainMenuController {
     @FXML
     void goToPlay(ActionEvent event) throws IOException {
         Preludio.getInstance().buttonSound.play();
-        Preludio.getInstance().setNewScene("/view/fxml/play.fxml");
+        Preludio.getInstance().setNewScene("/view/fxml/rhythmGame.fxml");
+        Preludio.getInstance().titlePlayer.stop();
     }
 
 
