@@ -115,4 +115,8 @@ public class Preludio extends Application {
         }
         return player;
     }
+
+    public Stage getStage() {
+        return stage;
+    }
 }

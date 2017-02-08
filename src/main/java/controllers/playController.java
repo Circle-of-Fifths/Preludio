@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -16,7 +17,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -79,103 +85,74 @@ public class playController {
     private static int numWhiteKeys = 8;
     private static int numBlackKeys = 5;
 
-    private HashMap<Rectangle, MediaPlayer> whiteKeys = new HashMap();
-    private HashMap<Rectangle, MediaPlayer> blackKeys = new HashMap();
+    final Stage dialog = new Stage();
 
     /**
      * Sets up the Free Play screen and the interactive piano keys.
      */
     @FXML
     public void initialize() {
-        for (Node key : keys_gridPane.getChildren()) {
-            int i;
-            int col = keys_gridPane.getColumnIndex(key);
-            String path;
-            if (col % 2 == 0) {
-                i = col / 2;
-                path = "/sound/notes/white" + i + ".mp3";
-                whiteKeys.put((Rectangle)key,
-                        Preludio.getInstance().createMusicPlayer(
-                                path, 1, false));
-                whiteKeys.get(key).setStartTime(new Duration(200));
-            } else {
-                if (col > 3) {
-                    i = (col - 3) / 2;
-                } else {
-                    i = (col - 1) / 2;
-                }
-                path = "/sound/notes/black" + i + ".mp3";
-                blackKeys.put((Rectangle)key,
-                        Preludio.getInstance().createMusicPlayer(
-                                path, 1, false));
-                blackKeys.get(key).setStartTime(new Duration(200));
+        createPauseMenu();
+        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                dialog.show();
             }
+        });
+        for (Node key : keys_gridPane.getChildren()) {
+
         }
     }
 
+    public void createPauseMenu() {
+        dialog.setResizable(false);
+        dialog.setTitle("Paused");
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(Preludio.getInstance().getStage());
+        Pane newPane = new Pane();
 
-    /**
-     * Asks user if they are sure if they want to exit Free Play and, if yes,
-     * sets up and shows the Main Menu Screen.
-     *
-     * @param event if the Main Menu fxml file cannot be found.
-     */
-    @FXML
-    void goBack(ActionEvent event) {
-        if (event.getSource().equals(KeyCode.ENTER)) {
-            Preludio.getInstance().buttonSound.play();
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                    "Are you sure you want to exit?");
-            ButtonType buttonTypeYes = new ButtonType("Yes");
-            ButtonType buttonTypeNo = new ButtonType("No");
-            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-            alert.showAndWait().filter(response ->
-                    response == buttonTypeYes).ifPresent(
-                    response -> {
-                        try {
-                            Preludio.getInstance().setNewScene(
-                                    "/view/fxml/mainMenu.fxml");
-                            Preludio.getInstance().titlePlayer.play();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    });
-        }
+        Button resumeButton = new Button("Resume");
+        resumeButton.setShape(new Circle(6.0));
+        Button restartButton = new Button("Restart");
+        restartButton.setShape(new Circle(6.0));
+        Button optionsButton = new Button("Options");
+        optionsButton.setShape(new Circle(6.0));
+        Button quitButton = new Button("Quit");
+        quitButton.setShape(new Circle(6.0));
+        resumeButton.setLayoutX(175);
+        resumeButton.setLayoutY(50);
+        restartButton.setLayoutX(175);
+        restartButton.setLayoutY(100);
+        optionsButton.setLayoutX(175);
+        optionsButton.setLayoutY(150);
+        quitButton.setLayoutX(185);
+        quitButton.setLayoutY(200);
+        newPane.getChildren().addAll(resumeButton, restartButton, optionsButton, quitButton);
+
+        resumeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+
+        quitButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+                // Stop parser and other stuff
+                try {
+                    Preludio.getInstance().setNewScene(
+                            "/view/fxml/mainMenu.fxml");
+                    Preludio.getInstance().titlePlayer.play();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        Scene dialogScene = new Scene(newPane, 400, 300);
+        dialog.setScene(dialogScene);
     }
 
-
-    /**
-     * Plays the note associated with the clicked key.
-     *
-     * @param event Event caused by clicking a piano key.
-     */
-    @FXML
-    void playNote(MouseEvent event) {
-        Rectangle key = (Rectangle)event.getSource();
-        if (whiteKeys.containsKey(key)) {
-            whiteKeys.get(key).play();
-            key.setFill(Color.DARKBLUE);
-        } else {
-            blackKeys.get(key).play();
-            key.setFill(Color.DARKGRAY);
-        }
-    }
-
-
-    /**
-     * Stops the note from being played when the user releases the mouse button.
-     *
-     * @param event Event caused by releasing the mouse button on a piano key.
-     */
-    @FXML
-    void releaseNote(MouseEvent event) {
-        Rectangle key = (Rectangle)event.getSource();
-        if (whiteKeys.containsKey(key)) {
-            whiteKeys.get(key).stop();
-            key.setFill(Color.BEIGE);
-        } else {
-            blackKeys.get(key).play();
-            key.setFill(Color.BLACK);
-        }
-    }
 }
