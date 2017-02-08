@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#goBack" prefHeight="600.0" prefWidth="850.0" style="-fx-background-image: url(/view/res/rhythmGameBackground.jpg); -fx-background-size: stretch;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.playController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#goBack" prefHeight="600.0" prefWidth="850.0" style="-fx-background-image: url(/view/res/rhythmGameBackground.jpg); -fx-background-size: stretch;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.playController">
    <children>
       <ProgressBar layoutX="52.0" layoutY="552.0" prefHeight="20.0" prefWidth="745.0" progress="0.0" />
       <ImageView fitHeight="75.0" fitWidth="75.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">

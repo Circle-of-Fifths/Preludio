@@ -2,15 +2,18 @@ package controllers;
 
 import engine.Preludio;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -25,7 +28,7 @@ import java.util.HashMap;
 public class playController {
 
     @FXML
-    private BorderPane pane;
+    private Pane pane;
 
     @FXML
     private Button back_button;
@@ -122,7 +125,7 @@ public class playController {
         if (event.getSource().equals(KeyCode.ENTER)) {
             Preludio.getInstance().buttonSound.play();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                    "Are you sure you want to exit Free Play?");
+                    "Are you sure you want to exit?");
             ButtonType buttonTypeYes = new ButtonType("Yes");
             ButtonType buttonTypeNo = new ButtonType("No");
             alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);

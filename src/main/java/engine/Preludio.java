@@ -63,6 +63,7 @@ public class Preludio extends Application {
                         response == ButtonType.OK).ifPresent(
                         response -> System.exit(0));
                 e.consume();});
+
         setNewScene("/view/fxml/titleScreen.fxml");
         stage.show();
     }

@@ -103,8 +103,12 @@ public class concertController {
 
     private static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
-    MidiParser parser = new MidiParser();
-    MyParserListener listener;
+    Sequencer sequencer = MidiSystem.getSequencer();
+
+    public concertController() throws MidiUnavailableException {
+    }
+    //MidiParser parser = new MidiParser();
+    //MyParserListener listener;
     Player player = new Player();
 
     /*
@@ -203,7 +207,7 @@ public class concertController {
         player.getManagedPlayer().finish();
         Preludio.getInstance().buttonSound.play();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                "Are you sure you want to exit Free Play?");
+                "Are you sure you want to exit the Concert Hall?");
         ButtonType buttonTypeYes = new ButtonType("Yes");
         ButtonType buttonTypeNo = new ButtonType("No");
         alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
@@ -211,6 +215,10 @@ public class concertController {
                 response == buttonTypeYes).ifPresent(
                 response -> {
                     try {
+                        if (sequencer.isRunning()) {
+                            sequencer.stop();
+                            sequencer.close();
+                        }
                         Preludio.getInstance().setNewScene(
                                 "/view/fxml/mainMenu.fxml");
                         Preludio.getInstance().titlePlayer.play();
@@ -268,6 +276,10 @@ public class concertController {
                 "Please Select a MIDI File to Play");
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
+                if (sequencer.isRunning()) {
+                    sequencer.stop();
+                    sequencer.close();
+                }
                 midiFile[0] = fileChooser.showOpenDialog(select_button.getScene().getWindow());
             }
         });
@@ -283,7 +295,6 @@ public class concertController {
                 addNotesToTrack(track, trk);
             }
 
-            Sequencer sequencer = MidiSystem.getSequencer();
             sequencer.open();
             MetaEventListener mel = new MetaEventListener() {
                 @Override
