@@ -93,10 +93,12 @@ public class playController {
     @FXML
     public void initialize() {
         createPauseMenu();
-        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
-            public void handle(MouseEvent event) {
-                dialog.show();
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ESCAPE)) {
+                    dialog.show();
+                }
             }
         });
         for (Node key : keys_gridPane.getChildren()) {

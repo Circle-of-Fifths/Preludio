@@ -25,6 +25,9 @@ public class mainMenuController {
     @FXML
     private Button records_button;
 
+    @FXML
+    private Button lessons_button;
+
     /**
      * Makes the button glow when the mouse is put over it.
      *
@@ -100,6 +103,13 @@ public class mainMenuController {
     void goToConcert(ActionEvent event) throws IOException {
         Preludio.getInstance().buttonSound.play();
         Preludio.getInstance().setNewScene("/view/fxml/concert.fxml");
+        Preludio.getInstance().titlePlayer.stop();
+    }
+
+    @FXML
+    void goToLessons(ActionEvent event) throws IOException {
+        Preludio.getInstance().buttonSound.play();
+        Preludio.getInstance().setNewScene("/view/fxml/lessons.fxml");
         Preludio.getInstance().titlePlayer.stop();
     }
 
