@@ -42,12 +42,6 @@ public class playController {
     private Pane pane;
 
     @FXML
-    private Button back_button;
-
-    @FXML
-    private GridPane keys_gridPane;
-
-    @FXML
     private Rectangle white0;
 
     @FXML
@@ -69,9 +63,6 @@ public class playController {
     private Rectangle white6;
 
     @FXML
-    private Rectangle white7;
-
-    @FXML
     private Rectangle black0;
 
     @FXML
@@ -87,10 +78,10 @@ public class playController {
     private Rectangle black4;
 
     @FXML
-    private TextArea titleBox;
+    private TextField titleBox;
 
     @FXML
-    private TextArea scoreBox;
+    private TextField scoreBox;
 
     @FXML
     private Button startButton;
@@ -106,17 +97,14 @@ public class playController {
     private static long endTime;
     private static float bpm;
     private static long ppq;
+    private static int score;
 
     FileChooser fileChooser = new FileChooser();
 
-    Object[] whiteKeysArr, blackKeysArr;
     private Map<String, Rectangle> noteNames;
 
     static List<Long> noteTimes = new ArrayList<>();
     static Set<noteSprite> activeNotes = new HashSet<>();
-
-    private HashMap<Rectangle, MediaPlayer> whiteKeys = new HashMap();
-    private HashMap<Rectangle, MediaPlayer> blackKeys = new HashMap();
 
     private static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
@@ -134,61 +122,11 @@ public class playController {
     public void initialize() throws MidiUnavailableException, InvalidMidiDataException, IOException {
         createPauseMenu();
         setupKeyListener();
-        int counter = 0;
-        for (Node key : keys_gridPane.getChildren()) {
-            int i;
-            int col = keys_gridPane.getColumnIndex(key);
-            String path;
-            if (col % 2 == 0) {
-                i = col / 2;
-                path = "/sound/notes/white" + i + ".mp3";
-                whiteKeys.put((Rectangle)key,
-                        Preludio.getInstance().createMusicPlayer(
-                                path, 1, false));
-                whiteKeys.get(key).setStartTime(new Duration(200));
-                ((Rectangle) key).setX(250.0 + (counter * 50.0));
-                ((Rectangle) key).setY(160.0);
-                counter++;
-            } else {
-                if (col > 3) {
-                    i = (col - 3) / 2;
-                } else {
-                    i = (col - 1) / 2;
-                }
-                path = "/sound/notes/black" + i + ".mp3";
-                blackKeys.put((Rectangle)key,
-                        Preludio.getInstance().createMusicPlayer(
-                                path, 1, false));
-                blackKeys.get(key).setStartTime(new Duration(200));
-                ((Rectangle) key).setX(250.0 + (counter * 50.0) + (37.5 / 2.0));
-                ((Rectangle) key).setY(160.0);
-                counter++;
-            }
-        }
-
-        whiteKeysArr = whiteKeys.keySet().toArray();
-        blackKeysArr = blackKeys.keySet().toArray();
+        score = 0;
 
         noteNames = new HashMap<>();
-        noteNames.put("C", (Rectangle) whiteKeysArr[0]);
-        noteNames.put("C#", (Rectangle) blackKeysArr[0]);
-        noteNames.put("Db", (Rectangle) blackKeysArr[0]);
-        noteNames.put("D", (Rectangle) whiteKeysArr[1]);
-        noteNames.put("D#", (Rectangle) blackKeysArr[1]);
-        noteNames.put("Eb", (Rectangle) blackKeysArr[1]);
-        noteNames.put("E", (Rectangle) whiteKeysArr[2]);
-        noteNames.put("F", (Rectangle) whiteKeysArr[3]);
-        noteNames.put("F#", (Rectangle) blackKeysArr[2]);
-        noteNames.put("Gb", (Rectangle) blackKeysArr[2]);
-        noteNames.put("G", (Rectangle) whiteKeysArr[4]);
-        noteNames.put("G#", (Rectangle) blackKeysArr[3]);
-        noteNames.put("Ab", (Rectangle) blackKeysArr[3]);
-        noteNames.put("A", (Rectangle) whiteKeysArr[5]);
-        noteNames.put("A#", (Rectangle) blackKeysArr[4]);
-        noteNames.put("Bb", (Rectangle) blackKeysArr[4]);
-        noteNames.put("B", (Rectangle) whiteKeysArr[6]);
 
-        /*noteNames.put("C", white0);
+        noteNames.put("C", white0);
         noteNames.put("C#", black0);
         noteNames.put("Db", black0);
         noteNames.put("D", white1);
@@ -205,7 +143,6 @@ public class playController {
         noteNames.put("A#", black4);
         noteNames.put("Bb", black4);
         noteNames.put("B", white6);
-        */
     }
 
     public void createPauseMenu() {
@@ -313,6 +250,8 @@ public class playController {
 
         if (midiFile[0] != null && midiFile[0].getName().contains(".mid")) {
             System.out.println("got the midi file");
+            titleBox.setText(midiFile[0].getName());
+            scoreBox.setText(String.valueOf(score));
 
             Sequence sequence = MidiSystem.getSequence(midiFile[0]);
             bpm = sequencer.getTempoInBPM();
@@ -335,20 +274,20 @@ public class playController {
                         //System.out.println("Note On recieved");
                         System.out.printf("Note: %s, Octave: %d\n", NOTE_NAMES[meta.getData()[1] % 12], (meta.getData()[1] / 12) - 1);
                         String noteName = NOTE_NAMES[meta.getData()[1] % 12];
-                        System.out.println("Key X: " + noteNames.get(noteName).getX() + " Key Y: " + noteNames.get(noteName).getY());
+                        System.out.println("Key X: " + noteNames.get(noteName).getLayoutX() + " Key Y: " + noteNames.get(noteName).getLayoutY());
                         note.setVisible(true);
                         TranslateTransition transition = new TranslateTransition(new Duration(noteTimes.get(noteTimesIndex)), note);
                         noteTimesIndex++;
                         transition.setAutoReverse(true);
                         transition.setFromX(note.getX());
                         transition.setFromY(note.getY());
-                        transition.setToX(noteNames.get(noteName).getX() + (noteNames.get(noteName).getWidth() / 2.0));
-                        transition.setToY(noteNames.get(noteName).getY() + (noteNames.get(noteName).getHeight() / 2.0));
+                        transition.setToX(noteNames.get(noteName).getLayoutX() + (noteNames.get(noteName).getWidth() / 2.0));
+                        transition.setToY(noteNames.get(noteName).getLayoutY() + (noteNames.get(noteName).getHeight() / 2.0));
                         transition.setOnFinished(new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-                                note.setVisible(false);
-                                note.setTranslateX(445);
+                                //note.setVisible(false);
+                                note.setTranslateY(445);
                                 note.setTranslateY(20);
                             }
                         });

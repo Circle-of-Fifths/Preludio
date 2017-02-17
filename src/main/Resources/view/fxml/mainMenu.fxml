@@ -79,12 +79,12 @@
             <Insets left="20.0" top="20.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="lessons_button" mnemonicParsing="false" onAction="#goToLessons" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" prefHeight="46.0" prefWidth="162.0" style="-fx-base: #b6e7c9;" text="Lessons" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Button fx:id="lessons_button" mnemonicParsing="false" onAction="#goToLessons" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" prefHeight="45.0" prefWidth="160.0" style="-fx-base: #b6e7c9;" text="Lessons" textAlignment="CENTER" translateX="65.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font name="Serif Regular" size="24.0" />
          </font>
       </Button>
-      <ImageView fitHeight="30.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <ImageView fitHeight="30.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true" translateX="65.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <image>
             <Image url="@../res/lessons.png" />
          </image>
