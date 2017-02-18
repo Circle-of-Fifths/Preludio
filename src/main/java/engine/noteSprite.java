@@ -16,27 +16,34 @@ import java.util.Set;
  */
 public class noteSprite {
 
-    private ImageView note = new ImageView(new
-            Image("Resources/view/res/quarter_note.png", 32, 32,
-            false, false));
+    private ImageView sprite;
     private TranslateTransition transition;
     private Rectangle key;
     boolean isHit;
     boolean isActive;
 
 
-    public noteSprite(Rectangle rectangle, long time) {
+    public noteSprite(Rectangle rectangle, ImageView note) {
+        key = rectangle;
+        sprite = note;
+        double x = sprite.getX();
+        double y = sprite.getY();
         isHit = false;
         isActive = false;
-        note.setVisible(false);
-        transition = new TranslateTransition(new Duration(time), this.note);
+        sprite.setVisible(false);
+        transition = new TranslateTransition();
+        transition.setNode(sprite);
         transition.setAutoReverse(true);
-        transition.setToX(rectangle.getX() + (rectangle.getWidth() / 2.0));
-        transition.setToY(rectangle.getY() + (rectangle.getHeight() / 2.0));
+        transition.setFromX(x);
+        transition.setFromY(y);
+        transition.setToX(key.getX() + (key.getWidth() / 2.0));
+        transition.setToY(key.getY() + (key.getHeight() / 2.0));
         transition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                note.setVisible(false);
+                sprite.setVisible(false);
+                sprite.setTranslateX(x);
+                sprite.setTranslateY(y);
                 if (!isHit) {
                     // print Miss
                     isActive = false;
@@ -46,7 +53,7 @@ public class noteSprite {
     }
 
     public ImageView getNote() {
-        return note;
+        return sprite;
     }
 
     public TranslateTransition getTransition() {

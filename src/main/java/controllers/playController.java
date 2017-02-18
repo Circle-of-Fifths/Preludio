@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -87,7 +88,40 @@ public class playController {
     private Button startButton;
 
     @FXML
-    private ImageView note;
+    private ImageView noteC;
+
+    @FXML
+    private ImageView noteCSharp;
+
+    @FXML
+    private ImageView noteD;
+
+    @FXML
+    private ImageView noteDSharp;
+
+    @FXML
+    private ImageView noteE;
+
+    @FXML
+    private ImageView noteF;
+
+    @FXML
+    private ImageView noteFSharp;
+
+    @FXML
+    private ImageView noteG;
+
+    @FXML
+    private ImageView noteGSharp;
+
+    @FXML
+    private ImageView noteA;
+
+    @FXML
+    private ImageView noteASharp;
+
+    @FXML
+    private ImageView noteB;
 
 
     private static int numWhiteKeys = 8;
@@ -96,12 +130,11 @@ public class playController {
     private static long startTime;
     private static long endTime;
     private static float bpm;
-    private static long ppq;
     private static int score;
 
     FileChooser fileChooser = new FileChooser();
 
-    private Map<String, Rectangle> noteNames;
+    private static Map<String, noteSprite> noteNames;
 
     static List<Long> noteTimes = new ArrayList<>();
     static Set<noteSprite> activeNotes = new HashSet<>();
@@ -126,23 +159,46 @@ public class playController {
 
         noteNames = new HashMap<>();
 
-        noteNames.put("C", white0);
-        noteNames.put("C#", black0);
-        noteNames.put("Db", black0);
-        noteNames.put("D", white1);
-        noteNames.put("D#", black1);
-        noteNames.put("Eb", black1);
-        noteNames.put("E", white2);
-        noteNames.put("F", white3);
-        noteNames.put("F#", black2);
-        noteNames.put("Gb", black2);
-        noteNames.put("G", white4);
-        noteNames.put("G#", black3);
-        noteNames.put("Ab", black3);
-        noteNames.put("A", white5);
-        noteNames.put("A#", black4);
-        noteNames.put("Bb", black4);
-        noteNames.put("B", white6);
+        noteSprite cSprite = new noteSprite(white0, noteC);
+        noteNames.put("C", cSprite);
+
+        noteSprite cSharpSprite = new noteSprite(black0, noteCSharp);
+        noteNames.put("C#", cSharpSprite);
+        noteNames.put("Db", cSharpSprite);
+
+        noteSprite dSprite = new noteSprite(white1, noteD);
+        noteNames.put("D", dSprite);
+
+        noteSprite dSharpSprite = new noteSprite(black1, noteDSharp);
+        noteNames.put("D#", dSharpSprite);
+        noteNames.put("Eb", dSharpSprite);
+
+        noteSprite eSprite = new noteSprite(white2, noteE);
+        noteNames.put("E", eSprite);
+
+        noteSprite fSprite = new noteSprite(white3, noteF);
+        noteNames.put("F", fSprite);
+
+        noteSprite fSharpSprite = new noteSprite(black2, noteFSharp);
+        noteNames.put("F#", fSharpSprite);
+        noteNames.put("Gb", fSharpSprite);
+
+        noteSprite gSprite = new noteSprite(white4, noteG);
+        noteNames.put("G", gSprite);
+
+        noteSprite gSharpSprite = new noteSprite(black3, noteGSharp);
+        noteNames.put("G#", gSharpSprite);
+        noteNames.put("Ab", gSharpSprite);
+
+        noteSprite aSprite = new noteSprite(white5, noteA);
+        noteNames.put("A", aSprite);
+
+        noteSprite aSharpSprite = new noteSprite(black4, noteASharp);
+        noteNames.put("A#", aSharpSprite);
+        noteNames.put("Bb", aSharpSprite);
+
+        noteSprite bSprite = new noteSprite(white6, noteB);
+        noteNames.put("B", bSprite);
     }
 
     public void createPauseMenu() {
@@ -271,28 +327,17 @@ public class playController {
                 public void meta(MetaMessage meta) {
                     final int type = meta.getType();
                     if (type == 1) {
-                        //System.out.println("Note On recieved");
-                        System.out.printf("Note: %s, Octave: %d\n", NOTE_NAMES[meta.getData()[1] % 12], (meta.getData()[1] / 12) - 1);
-                        String noteName = NOTE_NAMES[meta.getData()[1] % 12];
-                        System.out.println("Key X: " + noteNames.get(noteName).getLayoutX() + " Key Y: " + noteNames.get(noteName).getLayoutY());
-                        note.setVisible(true);
-                        TranslateTransition transition = new TranslateTransition(new Duration(noteTimes.get(noteTimesIndex)), note);
-                        noteTimesIndex++;
-                        transition.setAutoReverse(true);
-                        transition.setFromX(note.getX());
-                        transition.setFromY(note.getY());
-                        transition.setToX(noteNames.get(noteName).getLayoutX() + (noteNames.get(noteName).getWidth() / 2.0));
-                        transition.setToY(noteNames.get(noteName).getLayoutY() + (noteNames.get(noteName).getHeight() / 2.0));
-                        transition.setOnFinished(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                //note.setVisible(false);
-                                note.setTranslateY(445);
-                                note.setTranslateY(20);
-                            }
-                        });
-                        //activeNotes.add(sprite);
-                        transition.play();
+                        //System.out.printf("Note: %s, Octave: %d\n", NOTE_NAMES[meta.getData()[1] % 12], (meta.getData()[1] / 12) - 1);
+                        if (((meta.getData()[1] / 12) - 1) >= 4) {
+                            String noteName = NOTE_NAMES[meta.getData()[1] % 12];
+                            noteNames.get(noteName).getKey().setEffect(new Glow());
+                            //System.out.println("Key X: " + noteNames.get(noteName).getLayoutX() + " Key Y: " + noteNames.get(noteName).getLayoutY());
+                            noteNames.get(noteName).getNote().setVisible(true);
+                            noteNames.get(noteName).getTransition().setDuration(new Duration(noteTimes.get(noteTimesIndex) - 100));
+                            noteTimesIndex++;
+                            //activeNotes.add(sprite);
+                            noteNames.get(noteName).getTransition().play();
+                        }
                     }
                 }
             };
@@ -314,28 +359,84 @@ public class playController {
                 } else if (event.getCode().equals(KeyCode.A)) {
                     // C key pressed
                     // noteCollisionCheck()
+                    noteNames.get("C").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals((KeyCode.W))) {
                     // C# key pressed
+                    noteNames.get("C#").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.S)) {
                     // D key pressed
+                    noteNames.get("D").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.E)) {
                     // D# key pressed
+                    noteNames.get("D#").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.D)) {
                     // E key pressed
+                    noteNames.get("E").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.F)) {
                     // F key pressed
+                    noteNames.get("F").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.T)) {
                     // F# key pressed
+                    noteNames.get("F#").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.G)) {
                     // G key pressed
+                    noteNames.get("G").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.Y)) {
                     // G# key pressed
+                    noteNames.get("G#").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.H)) {
                     // A key pressed
+                    noteNames.get("A").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.U)) {
                     // A# key pressed
+                    noteNames.get("A#").getKey().setFill(Color.BLUE);
                 } else if (event.getCode().equals(KeyCode.J)) {
                     // B key pressed
+                    noteNames.get("B").getKey().setFill(Color.BLUE);
+                }
+            }
+        });
+
+        pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.A)) {
+                    // C key pressed
+                    // noteCollisionCheck()
+                    noteNames.get("C").getKey().setFill(Color.WHITE);
+                } else if (event.getCode().equals((KeyCode.W))) {
+                    // C# key pressed
+                    noteNames.get("C#").getKey().setFill(Color.BLACK);
+                } else if (event.getCode().equals(KeyCode.S)) {
+                    // D key pressed
+                    noteNames.get("D").getKey().setFill(Color.WHITE);
+                } else if (event.getCode().equals(KeyCode.E)) {
+                    // D# key pressed
+                    noteNames.get("D#").getKey().setFill(Color.BLACK);
+                } else if (event.getCode().equals(KeyCode.D)) {
+                    // E key pressed
+                    noteNames.get("E").getKey().setFill(Color.WHITE);
+                } else if (event.getCode().equals(KeyCode.F)) {
+                    // F key pressed
+                    noteNames.get("F").getKey().setFill(Color.WHITE);
+                } else if (event.getCode().equals(KeyCode.T)) {
+                    // F# key pressed
+                    noteNames.get("F#").getKey().setFill(Color.BLACK);
+                } else if (event.getCode().equals(KeyCode.G)) {
+                    // G key pressed
+                    noteNames.get("G").getKey().setFill(Color.WHITE);
+                } else if (event.getCode().equals(KeyCode.Y)) {
+                    // G# key pressed
+                    noteNames.get("G#").getKey().setFill(Color.BLACK);
+                } else if (event.getCode().equals(KeyCode.H)) {
+                    // A key pressed
+                    noteNames.get("A").getKey().setFill(Color.WHITE);
+                } else if (event.getCode().equals(KeyCode.U)) {
+                    // A# key pressed
+                    noteNames.get("A#").getKey().setFill(Color.BLACK);
+                } else if (event.getCode().equals(KeyCode.J)) {
+                    // B key pressed
+                    noteNames.get("B").getKey().setFill(Color.WHITE);
                 }
             }
         });
