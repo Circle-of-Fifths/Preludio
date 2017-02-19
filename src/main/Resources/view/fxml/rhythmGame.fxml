@@ -26,11 +26,6 @@
          </font>
       </Label>
       <Button fx:id="startButton" layoutX="300.0" layoutY="28.0" mnemonicParsing="false" onAction="#selectSong" text="Start" />
-      <ImageView fx:id="noteC" fitHeight="50.0" fitWidth="65.0" layoutX="225.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
-         <image>
-            <Image url="@../res/quarter_note.png" />
-         </image>
-      </ImageView>
       <Rectangle fx:id="white0" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" layoutX="225.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
       <Rectangle fx:id="white1" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" layoutX="275.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
       <Rectangle fx:id="white2" arcHeight="15.0" arcWidth="15.0" fill="BEIGE" height="325.0" layoutX="325.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="50.0" />
@@ -53,6 +48,11 @@
             <Font size="14.0" />
          </font>
       </TextField>
+      <ImageView fx:id="noteC" fitHeight="50.0" fitWidth="65.0" layoutX="225.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../res/quarter_note.png" />
+         </image>
+      </ImageView>
       <ImageView fx:id="noteCSharp" fitHeight="50.0" fitWidth="65.0" layoutX="256.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
