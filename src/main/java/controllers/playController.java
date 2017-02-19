@@ -229,6 +229,9 @@ public class playController {
         resumeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                if (sequencer.isOpen()) {
+                    sequencer.start();
+                }
                 dialog.close();
             }
         });
@@ -239,6 +242,9 @@ public class playController {
                 dialog.close();
                 // Stop parser and other stuff
                 try {
+                    if (sequencer.isOpen()) {
+                        sequencer.close();
+                    }
                     Preludio.getInstance().setNewScene(
                             "/view/fxml/mainMenu.fxml");
                     Preludio.getInstance().titlePlayer.play();
@@ -355,6 +361,9 @@ public class playController {
             public void handle(KeyEvent event) {
                 if (event.getCode().equals(KeyCode.ESCAPE)) {
                     // Pause key pressed
+                    if (sequencer.isRunning()) {
+                        sequencer.stop();
+                    }
                     dialog.show();
                 } else if (event.getCode().equals(KeyCode.A)) {
                     // C key pressed
