@@ -36,8 +36,8 @@ public class noteSprite {
         transition.setAutoReverse(true);
         transition.setFromX(x);
         transition.setFromY(y);
-        transition.setToX(key.getX() + (key.getWidth() / 2.0));
-        transition.setToY(key.getY() + (key.getHeight() / 2.0));
+        transition.setToX(x);
+        transition.setToY(rectangle.getLayoutY() + rectangle.getHeight() / 2);
         transition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

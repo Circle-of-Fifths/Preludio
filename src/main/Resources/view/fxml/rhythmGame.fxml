@@ -26,7 +26,7 @@
          </font>
       </Label>
       <Button fx:id="startButton" layoutX="300.0" layoutY="28.0" mnemonicParsing="false" onAction="#selectSong" text="Start" />
-      <ImageView fx:id="noteC" fitHeight="50.0" fitWidth="65.0" layoutX="365.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteC" fitHeight="50.0" fitWidth="65.0" layoutX="225.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
@@ -53,57 +53,57 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <ImageView fx:id="noteCSharp" fitHeight="50.0" fitWidth="65.0" layoutX="403.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteCSharp" fitHeight="50.0" fitWidth="65.0" layoutX="256.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteD" fitHeight="50.0" fitWidth="65.0" layoutX="431.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteD" fitHeight="50.0" fitWidth="65.0" layoutX="275.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteDSharp" fitHeight="50.0" fitWidth="65.0" layoutX="469.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteDSharp" fitHeight="50.0" fitWidth="65.0" layoutX="307.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteE" fitHeight="50.0" fitWidth="65.0" layoutX="513.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteE" fitHeight="50.0" fitWidth="65.0" layoutX="325.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteFSharp" fitHeight="50.0" fitWidth="65.0" layoutX="366.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteFSharp" fitHeight="50.0" fitWidth="65.0" layoutX="407.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteG" fitHeight="50.0" fitWidth="65.0" layoutX="400.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteG" fitHeight="50.0" fitWidth="65.0" layoutX="425.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteGSharp" fitHeight="50.0" fitWidth="65.0" layoutX="430.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteGSharp" fitHeight="50.0" fitWidth="65.0" layoutX="456.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteA" fitHeight="50.0" fitWidth="65.0" layoutX="468.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteA" fitHeight="50.0" fitWidth="65.0" layoutX="475.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteASharp" fitHeight="50.0" fitWidth="65.0" layoutX="508.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteASharp" fitHeight="50.0" fitWidth="65.0" layoutX="505.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteF" fitHeight="50.0" fitWidth="65.0" layoutX="553.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteF" fitHeight="50.0" fitWidth="65.0" layoutX="375.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="noteB" fitHeight="50.0" fitWidth="65.0" layoutX="553.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="noteB" fitHeight="50.0" fitWidth="65.0" layoutX="525.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../res/quarter_note.png" />
          </image>
