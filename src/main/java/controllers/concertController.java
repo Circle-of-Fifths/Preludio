@@ -176,23 +176,23 @@ public class concertController {
         blackKeysArr = blackKeys.keySet().toArray();
 
         noteNames = new HashMap<>();
-        noteNames.put("C", (Rectangle) whiteKeysArr[0]);
-        noteNames.put("C#", (Rectangle) blackKeysArr[0]);
-        noteNames.put("Db", (Rectangle) blackKeysArr[0]);
-        noteNames.put("D", (Rectangle) whiteKeysArr[1]);
-        noteNames.put("D#", (Rectangle) blackKeysArr[1]);
-        noteNames.put("Eb", (Rectangle) blackKeysArr[1]);
-        noteNames.put("E", (Rectangle) whiteKeysArr[2]);
-        noteNames.put("F", (Rectangle) whiteKeysArr[3]);
-        noteNames.put("F#", (Rectangle) blackKeysArr[2]);
-        noteNames.put("Gb", (Rectangle) blackKeysArr[2]);
-        noteNames.put("G", (Rectangle) whiteKeysArr[4]);
-        noteNames.put("G#", (Rectangle) blackKeysArr[3]);
-        noteNames.put("Ab", (Rectangle) blackKeysArr[3]);
-        noteNames.put("A", (Rectangle) whiteKeysArr[5]);
-        noteNames.put("A#", (Rectangle) blackKeysArr[4]);
-        noteNames.put("Bb", (Rectangle) blackKeysArr[4]);
-        noteNames.put("B", (Rectangle) whiteKeysArr[6]);
+        noteNames.put("C", white0);
+        noteNames.put("C#", black0);
+        noteNames.put("Db", black0);
+        noteNames.put("D", white1);
+        noteNames.put("D#", black1);
+        noteNames.put("Eb", black1);
+        noteNames.put("E", white2);
+        noteNames.put("F", white3);
+        noteNames.put("F#", black2);
+        noteNames.put("Gb", black2);
+        noteNames.put("G", white4);
+        noteNames.put("G#", black3);
+        noteNames.put("Ab", black3);
+        noteNames.put("A", white5);
+        noteNames.put("A#", black4);
+        noteNames.put("Bb", black4);
+        noteNames.put("B", white6);
     }
 
 
