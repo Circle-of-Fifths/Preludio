@@ -247,6 +247,17 @@ public class playController {
 		}
 	});
 
+	optionsButton.setOnAction(new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent event) {
+			final Stage optionsScreen = new Stage();
+			optionsScreen.setTitle("Options");
+			optionsScreen.initModality(Modality.APPLICATION_MODAL);
+			optionsScreen.initOwner(Preludio.getInstance().getStage());
+			optionsScreen.setNewScene("/view/fxml/settings.fxml");
+		}
+	});
+
         quitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
