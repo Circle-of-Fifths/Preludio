@@ -236,27 +236,31 @@ public class playController {
             }
         });
 
-	restartButton.setOnAction(new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent event) {
-			if (sequencer.isOpen()) {
-				sequencer.setTickPosition(0);
-				sequencer.start();
-			}
-			dialog.close();
-		}
-	});
+        restartButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (sequencer.isOpen()) {
+                    sequencer.setTickPosition(0);
+                    sequencer.start();
+                }
+                dialog.close();
+            }
+        });
 
-	optionsButton.setOnAction(new EventHandler<ActionEvent>() {
-		@Override
-		public void handle(ActionEvent event) {
-			final Stage optionsScreen = new Stage();
-			optionsScreen.setTitle("Options");
-			optionsScreen.initModality(Modality.APPLICATION_MODAL);
-			optionsScreen.initOwner(Preludio.getInstance().getStage());
-			optionsScreen.setNewScene("/view/fxml/settings.fxml");
-		}
-	});
+        optionsButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    if (sequencer.isOpen()) {
+                        sequencer.close();
+                    }
+
+                    Preludio.getInstance().setNewScene("/view/fxml/settings.fxml");
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });
 
         quitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
