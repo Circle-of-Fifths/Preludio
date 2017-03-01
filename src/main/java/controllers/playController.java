@@ -236,6 +236,17 @@ public class playController {
             }
         });
 
+	restartButton.setOnAction(new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent event) {
+			if (sequencer.isOpen()) {
+				sequencer.setTickPosition(0);
+				sequencer.start();
+			}
+			dialog.close();
+		}
+	});
+
         quitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
