@@ -341,7 +341,7 @@ public class playController {
                             noteNames.get(noteName).getNote().setVisible(true);
                             noteNames.get(noteName).getTransition().setDuration(new Duration(noteTimes.get(noteTimesIndex) - 100));
                             noteTimesIndex++;
-                            //activeNotes.add(sprite);
+                            activeNotes.add(noteNames.get(noteName));
                             noteNames.get(noteName).getTransition().play();
                         }
                     }
