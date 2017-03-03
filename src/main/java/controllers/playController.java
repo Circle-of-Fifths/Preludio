@@ -2,31 +2,25 @@ package controllers;
 
 import engine.Preludio;
 import engine.noteSprite;
-import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.Duration;
 
 import javax.sound.midi.*;
@@ -320,6 +314,8 @@ public class playController {
     }
 
     public void selectSong() throws InvalidMidiDataException, IOException, MidiUnavailableException {
+        score = 0;
+        scoreBox.setText(String.valueOf(score));
         final File[] midiFile = new File[1];
         fileChooser.setTitle("Project Preludio 2017: Open MIDI File");
         //fileChooser.setInitialDirectory(startDir);
@@ -370,6 +366,11 @@ public class playController {
                             activeNotes.add(noteNames.get(noteName));
                             noteNames.get(noteName).getTransition().play();
                         }
+                    } else if (type == 2) {
+                        String noteName = NOTE_NAMES[meta.getData()[1] % 12];
+                        activeNotes.remove(noteNames.get(noteName));
+                        scoreBox.setText(String.valueOf(score));
+                        System.out.println("Score " + score);
                     }
                 }
             };
@@ -393,41 +394,64 @@ public class playController {
                     dialog.show();
                 } else if (event.getCode().equals(KeyCode.A)) {
                     // C key pressed
-                    // noteCollisionCheck()
                     noteNames.get("C").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals((KeyCode.W))) {
                     // C# key pressed
                     noteNames.get("C#").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.S)) {
                     // D key pressed
                     noteNames.get("D").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.E)) {
                     // D# key pressed
                     noteNames.get("D#").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.D)) {
                     // E key pressed
                     noteNames.get("E").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.F)) {
                     // F key pressed
                     noteNames.get("F").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.T)) {
                     // F# key pressed
                     noteNames.get("F#").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.G)) {
                     // G key pressed
                     noteNames.get("G").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.Y)) {
                     // G# key pressed
                     noteNames.get("G#").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.H)) {
                     // A key pressed
                     noteNames.get("A").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.U)) {
                     // A# key pressed
                     noteNames.get("A#").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 } else if (event.getCode().equals(KeyCode.J)) {
                     // B key pressed
                     noteNames.get("B").getKey().setFill(Color.BLUE);
+                    //Preludio.getInstance().noteSound.play();
+                    noteCollisionCheck();
                 }
             }
         });
@@ -478,6 +502,27 @@ public class playController {
     }
 
     public void noteCollisionCheck() {
+        for (noteSprite sprite : activeNotes) {
+            //double deltaX = sprite.getTransition().getToX() - sprite.getNote().getX();
+            double deltaY = sprite.getTransition().getToY() - sprite.getNote().getY();
+            //System.out.println("DeltaX " + deltaX);
+            System.out.println("DeltaY " + deltaY);
 
+            if ((deltaY > 300 && deltaY < 600)) {
+                score += 100;
+                activeNotes.remove(sprite);
+                sprite.getNote().setVisible(false);
+            } else if ((deltaY > 100 && deltaY < 300)) {
+                score += 300;
+                activeNotes.remove(sprite);
+                sprite.getNote().setVisible(false);
+            } else if ((deltaY > 0 && deltaY < 100)) {
+                score += 500;
+                activeNotes.remove(sprite);
+                sprite.getNote().setVisible(false);
+            } else {
+                score += 0;
+            }
+        }
     }
 }

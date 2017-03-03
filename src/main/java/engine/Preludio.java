@@ -21,7 +21,8 @@ public class Preludio extends Application {
             "/sound/BBC5_I.mp3", .75, true);
     public MediaPlayer buttonSound = this.createMusicPlayer(
             "/sound/buttonSound.mp3", .20, false);
-
+    public MediaPlayer noteSound = this.createMusicPlayer(
+            "/sound/tamborine.wav", .25, false);
     private static Stage stage;
 
     /**
