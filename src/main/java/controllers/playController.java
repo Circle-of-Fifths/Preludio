@@ -121,7 +121,7 @@ public class playController {
     private static int numWhiteKeys = 8;
     private static int numBlackKeys = 5;
     private static int noteTimesIndex = 0;
-    private static long startTime;
+    private static List<Long> startTimes = new ArrayList<>();
     private static long endTime;
     private static float bpm;
     private static int score;
@@ -291,16 +291,24 @@ public class playController {
                 ShortMessage sm = (ShortMessage) mm;
                 int command = sm.getCommand();
                 int com = -1;
-                if (command == ShortMessage.NOTE_ON) {
-                    com = 1;
-                    startTime = me.getTick();
-                } else if (command == ShortMessage.NOTE_OFF) {
+                if (command == ShortMessage.NOTE_OFF
+                        || command == 0x58
+                        || (command == ShortMessage.NOTE_ON
+                        && sm.getData2() == 0)) {
                     com = 2;
                     endTime = me.getTick();
                     float tickLen = (60000.0f / (bpm * 192.0f));
-                    long time = (long) tickLen * (endTime - startTime);
-                    //System.out.println(time + " ms");
-                    noteTimes.add(time);
+                    for (long startTime : startTimes) {
+                        // assumption is that when there are multiple entries
+                        // All Notes Off is used and not a specific Note Off
+                        long time = (long) tickLen * (endTime - startTime);
+                        //System.out.println(time + " ms");
+                        noteTimes.add(time);
+                    }
+                    startTimes.clear();
+                } else if (command == ShortMessage.NOTE_ON) {
+                    com = 1;
+                    startTimes.add(me.getTick());
                 }
                 if (com > 0) {
                     byte[] b = sm.getMessage();
