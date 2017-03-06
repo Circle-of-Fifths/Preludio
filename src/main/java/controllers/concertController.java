@@ -126,9 +126,14 @@ public class concertController {
                 int com = -1;
                 if (command == ShortMessage.NOTE_ON) {
                     com = 1;
-                } else if (command == ShortMessage.NOTE_OFF) {
+                    if (sm.getData2() == 0) {
+                        com = 2;
+                    }
+                } else if (command == ShortMessage.NOTE_OFF || command == 0x58) {
                     com = 2;
                 }
+                System.out.println(command);
+                System.out.println(com);
                 if (com > 0) {
                     byte[] b = sm.getMessage();
                     int l = (b == null ? 0 : b.length);
