@@ -1,0 +1,1 @@
+When there is a difference of two half steps between notes, the interval is called a major second (abbreviated as M2). Try playing along now.

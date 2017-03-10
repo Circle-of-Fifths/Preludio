@@ -1,0 +1,1 @@
+An interval refers to the difference between the pitches of two notes. For the purpose of these tutorials, the first note of an interval will always be C. When the same note is repeated, the interval is called a perfect unison (abbreviated as P1). Try playing along now.
