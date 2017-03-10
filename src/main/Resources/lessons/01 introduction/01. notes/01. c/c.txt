@@ -1,0 +1,3 @@
+There are twelve notes on the piano altogether. These twelve notes make up what is called an octave. Octaves repeat across the piano keyboard. The white keys on the piano are labeled from A to G, but generally C is considered the "first" note. At least it is the first note in the C major scale which is composed solely of the white keys on the piano. Scales will be discussed in more detail later.
+
+Noting that C is the leftmost note shown on the Preludio piano keyboard and can be played using the A letter key on the computer keyboard (by default), try playing along now.
