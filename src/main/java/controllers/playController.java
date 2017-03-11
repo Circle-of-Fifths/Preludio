@@ -1,5 +1,6 @@
 package controllers;
 
+import engine.CurrentLesson;
 import engine.Preludio;
 import engine.noteSprite;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.omg.CORBA.Current;
 
 import javax.sound.midi.*;
 import java.io.File;
@@ -328,17 +330,21 @@ public class playController {
         fileChooser.setTitle("Project Preludio 2017: Open MIDI File");
         //fileChooser.setInitialDirectory(startDir);
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                "Please Select a MIDI File to Play");
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                if (sequencer.isRunning()) {
-                    sequencer.stop();
-                    sequencer.close();
+        if (CurrentLesson.playLesson()) {
+            midiFile[0] = CurrentLesson.getMidi();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Please Select a MIDI File to Play");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    if (sequencer.isRunning()) {
+                        sequencer.stop();
+                        sequencer.close();
+                    }
+                    midiFile[0] = fileChooser.showOpenDialog(startButton.getScene().getWindow());
                 }
-                midiFile[0] = fileChooser.showOpenDialog(startButton.getScene().getWindow());
-            }
-        });
+            });
+        }
 
         if (midiFile[0] != null && midiFile[0].getName().contains(".mid")) {
             System.out.println("got the midi file");

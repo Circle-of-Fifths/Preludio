@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.lessonController">
+   <children>
+      <Button fx:id="select_button" alignment="CENTER" layoutX="200.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectLesson" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" prefHeight="40.0" prefWidth="200.0" text="Select Lesson" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Verdana" size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="preview_button" alignment="CENTER" layoutX="100.0" layoutY="346.0" mnemonicParsing="false" onAction="#previewLesson" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" prefHeight="40.0" prefWidth="200.0" text="Preview Lesson" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Verdana" size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="back_button" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#goBack" prefHeight="50.0" prefWidth="50.0">
+         <font>
+            <Font name="Serif Regular" size="24.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/backIcon.jpg" />
+               </image>
+            </ImageView>
+         </graphic>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="play_button" alignment="CENTER" layoutX="300.0" layoutY="346.0" mnemonicParsing="false" onAction="#playLesson" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" prefHeight="40.0" prefWidth="200.0" text="Play Lesson" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Verdana" size="20.0" />
+         </font>
+      </Button>
+      <TextArea fx:id="lesson_text" layoutX="100.0" layoutY="75.0" prefHeight="251.0" prefWidth="401.0" />
+   </children>
+</Pane>

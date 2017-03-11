@@ -1,5 +1,6 @@
 package controllers;
 
+import engine.CurrentLesson;
 import engine.Preludio;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -269,25 +270,28 @@ public class concertController {
         }
     }
 
-
     @FXML
-    void selectSong(ActionEvent event) throws InvalidMidiDataException, IOException, MidiUnavailableException {
+    void selectSong(ActionEvent event) throws InvalidMidiDataException, MidiUnavailableException, IOException {
         player.getManagedPlayer().finish();
         final File[] midiFile = new File[1];
         fileChooser.setTitle("Project Preludio 2017: Open MIDI File");
         //fileChooser.setInitialDirectory(startDir);
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                "Please Select a MIDI File to Play");
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                if (sequencer.isRunning()) {
-                    sequencer.stop();
-                    sequencer.close();
+        if (CurrentLesson.playLesson()) {
+            midiFile[0] = CurrentLesson.getMidi();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                    "Please Select a MIDI File to Play");
+            alert.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    if (sequencer.isRunning()) {
+                        sequencer.stop();
+                        sequencer.close();
+                    }
+                    midiFile[0] = fileChooser.showOpenDialog(select_button.getScene().getWindow());
                 }
-                midiFile[0] = fileChooser.showOpenDialog(select_button.getScene().getWindow());
-            }
-        });
+            });
+        }
 
         if (midiFile[0] != null && midiFile[0].getName().contains(".mid")) {
             System.out.println("got the midi file");
@@ -307,14 +311,16 @@ public class concertController {
                     final int type = meta.getType();
                     if (type == 1) {
                         noteNames.get(NOTE_NAMES[meta.getData()[1] % 12]).setFill(Color.DARKBLUE);
-                        System.out.printf("Note: %s, Octave: %d\n", NOTE_NAMES[meta.getData()[1] % 12], (meta.getData()[1] / 12) - 1);
+                        System.out.printf("Note: %s, Octave: %d\n", NOTE_NAMES[meta.getData()[1] % 12],
+                                (meta.getData()[1] / 12) - 1);
                     } else if (type == 2) {
                         if (NOTE_NAMES[meta.getData()[1] % 12].contains("#")) {
                             noteNames.get(NOTE_NAMES[meta.getData()[1] % 12]).setFill(Color.BLACK);
                         } else {
                             noteNames.get(NOTE_NAMES[meta.getData()[1] % 12]).setFill(Color.BEIGE);
                         }
-                        System.out.printf("Note off: %s, Octave: %d\n", NOTE_NAMES[meta.getData()[1] % 12], (meta.getData()[1] / 12) - 1);
+                        System.out.printf("Note off: %s, Octave: %d\n", NOTE_NAMES[meta.getData()[1] % 12],
+                                (meta.getData()[1] / 12) - 1);
                     }
                 }
             };
@@ -323,42 +329,6 @@ public class concertController {
 
             sequencer.setSequence(sequence);
             sequencer.start();
-
-
-//            // Do jFugue stuff here
-//            new Thread() {
-//                public void run() {
-//                    //Pattern pattern = MidiFileManager.loadPatternFromMidi(midiFile[0]);
-//                    Sequence sequence2 = null;
-//                    try {
-//                        sequence2 = MidiFileManager.load(midiFile[0]);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (InvalidMidiDataException e) {
-//                        e.printStackTrace();
-//                    }
-//                    System.out.println("playing");
-//                    if (sequence2 != null) {
-//                        player.play(sequence2);
-//                    }
-//                }
-//            }.start();
-//
-//            new Thread() {
-//                public void run() {
-//                    listener = new MyParserListener(this, whiteKeys,blackKeys);
-//                    Sequence sequence = null;
-//                    try {
-//                        sequence = MidiFileManager.load(midiFile[0]);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (InvalidMidiDataException e) {
-//                        e.printStackTrace();
-//                    }
-//                    parser.addParserListener(listener);
-//                    parser.parse(sequence);
-//                }
-//            }.start();
         }
     }
 
