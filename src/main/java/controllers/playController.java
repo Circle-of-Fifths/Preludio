@@ -2,6 +2,7 @@ package controllers;
 
 import engine.CurrentLesson;
 import engine.Preludio;
+import engine.Settings;
 import engine.noteSprite;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -406,62 +407,62 @@ public class playController {
                         sequencer.stop();
                     }
                     dialog.show();
-                } else if (event.getCode().equals(KeyCode.A)) {
+                } else if (event.getCode().equals(Settings.getKeyC())) {
                     // C key pressed
                     noteNames.get("C").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals((KeyCode.W))) {
+                } else if (event.getCode().equals(Settings.getKeyCSharp())) {
                     // C# key pressed
                     noteNames.get("C#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.S)) {
+                } else if (event.getCode().equals(Settings.getKeyD())) {
                     // D key pressed
                     noteNames.get("D").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.E)) {
+                } else if (event.getCode().equals(Settings.getKeyDSharp())) {
                     // D# key pressed
                     noteNames.get("D#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.D)) {
+                } else if (event.getCode().equals(Settings.getKeyE())) {
                     // E key pressed
                     noteNames.get("E").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.F)) {
+                } else if (event.getCode().equals(Settings.getKeyF())) {
                     // F key pressed
                     noteNames.get("F").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.T)) {
+                } else if (event.getCode().equals(Settings.getKeyFSharp())) {
                     // F# key pressed
                     noteNames.get("F#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.G)) {
+                } else if (event.getCode().equals(Settings.getKeyG())) {
                     // G key pressed
                     noteNames.get("G").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.Y)) {
+                } else if (event.getCode().equals(Settings.getKeyGSharp())) {
                     // G# key pressed
                     noteNames.get("G#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.H)) {
+                } else if (event.getCode().equals(Settings.getKeyA())) {
                     // A key pressed
                     noteNames.get("A").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.U)) {
+                } else if (event.getCode().equals(Settings.getKeyASharp())) {
                     // A# key pressed
                     noteNames.get("A#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
                     noteCollisionCheck();
-                } else if (event.getCode().equals(KeyCode.J)) {
+                } else if (event.getCode().equals(Settings.getKeyB())) {
                     // B key pressed
                     noteNames.get("B").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
@@ -473,43 +474,43 @@ public class playController {
         pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode().equals(KeyCode.A)) {
+                if (event.getCode().equals(Settings.getKeyC())) {
                     // C key pressed
                     // noteCollisionCheck()
-                    noteNames.get("C").getKey().setFill(Color.WHITE);
-                } else if (event.getCode().equals((KeyCode.W))) {
+                    noteNames.get("C").getKey().setFill(Color.BEIGE);
+                } else if (event.getCode().equals(Settings.getKeyCSharp())) {
                     // C# key pressed
                     noteNames.get("C#").getKey().setFill(Color.BLACK);
-                } else if (event.getCode().equals(KeyCode.S)) {
+                } else if (event.getCode().equals(Settings.getKeyD())) {
                     // D key pressed
-                    noteNames.get("D").getKey().setFill(Color.WHITE);
-                } else if (event.getCode().equals(KeyCode.E)) {
+                    noteNames.get("D").getKey().setFill(Color.BEIGE);
+                } else if (event.getCode().equals(Settings.getKeyDSharp())) {
                     // D# key pressed
                     noteNames.get("D#").getKey().setFill(Color.BLACK);
-                } else if (event.getCode().equals(KeyCode.D)) {
+                } else if (event.getCode().equals(Settings.getKeyE())) {
                     // E key pressed
-                    noteNames.get("E").getKey().setFill(Color.WHITE);
-                } else if (event.getCode().equals(KeyCode.F)) {
+                    noteNames.get("E").getKey().setFill(Color.BEIGE);
+                } else if (event.getCode().equals(Settings.getKeyF())) {
                     // F key pressed
-                    noteNames.get("F").getKey().setFill(Color.WHITE);
-                } else if (event.getCode().equals(KeyCode.T)) {
+                    noteNames.get("F").getKey().setFill(Color.BEIGE);
+                } else if (event.getCode().equals(Settings.getKeyFSharp())) {
                     // F# key pressed
                     noteNames.get("F#").getKey().setFill(Color.BLACK);
-                } else if (event.getCode().equals(KeyCode.G)) {
+                } else if (event.getCode().equals(Settings.getKeyG())) {
                     // G key pressed
-                    noteNames.get("G").getKey().setFill(Color.WHITE);
-                } else if (event.getCode().equals(KeyCode.Y)) {
+                    noteNames.get("G").getKey().setFill(Color.BEIGE);
+                } else if (event.getCode().equals(Settings.getKeyGSharp())) {
                     // G# key pressed
                     noteNames.get("G#").getKey().setFill(Color.BLACK);
-                } else if (event.getCode().equals(KeyCode.H)) {
+                } else if (event.getCode().equals(Settings.getKeyA())) {
                     // A key pressed
-                    noteNames.get("A").getKey().setFill(Color.WHITE);
-                } else if (event.getCode().equals(KeyCode.U)) {
+                    noteNames.get("A").getKey().setFill(Color.BEIGE);
+                } else if (event.getCode().equals(Settings.getKeyASharp())) {
                     // A# key pressed
                     noteNames.get("A#").getKey().setFill(Color.BLACK);
-                } else if (event.getCode().equals(KeyCode.J)) {
+                } else if (event.getCode().equals(Settings.getKeyB())) {
                     // B key pressed
-                    noteNames.get("B").getKey().setFill(Color.WHITE);
+                    noteNames.get("B").getKey().setFill(Color.BEIGE);
                 }
             }
         });
