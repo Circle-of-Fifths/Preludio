@@ -196,6 +196,10 @@ public class playController {
 
         noteSprite bSprite = new noteSprite(white6, noteB);
         noteNames.put("B", bSprite);
+
+        if (CurrentLesson.playLesson()) {
+            startButton.setText("Play lesson");
+        }
     }
 
     public void createPauseMenu() {

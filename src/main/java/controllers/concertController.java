@@ -199,6 +199,10 @@ public class concertController {
         noteNames.put("A#", black4);
         noteNames.put("Bb", black4);
         noteNames.put("B", white6);
+
+        if (CurrentLesson.playLesson()) {
+            select_button.setText("Play lesson");
+        }
     }
 
 
