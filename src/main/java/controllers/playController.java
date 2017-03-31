@@ -7,19 +7,19 @@ import engine.noteSprite;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -27,8 +27,9 @@ import javafx.util.Duration;
 import org.omg.CORBA.Current;
 
 import javax.sound.midi.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -120,6 +121,12 @@ public class playController {
     @FXML
     private ImageView noteB;
 
+    @FXML
+    private ProgressBar scoreBar;
+
+    @FXML
+    private Label feedback;
+
 
     private static int numWhiteKeys = 8;
     private static int numBlackKeys = 5;
@@ -128,6 +135,8 @@ public class playController {
     private static long endTime;
     private static float bpm;
     private static int score;
+    private static int numNotes;
+    private static int maxScore;
 
     FileChooser fileChooser = new FileChooser();
 
@@ -142,6 +151,8 @@ public class playController {
 
     final Stage dialog = new Stage();
 
+    final Stage scoreScreen = new Stage();
+
     public playController() throws MidiUnavailableException {
     }
 
@@ -152,6 +163,7 @@ public class playController {
     public void initialize() throws MidiUnavailableException, InvalidMidiDataException, IOException {
         createPauseMenu();
         setupKeyListener();
+        scoreBar = new ProgressBar();
         score = 0;
 
         noteNames = new HashMap<>();
@@ -217,14 +229,12 @@ public class playController {
         optionsButton.setShape(new Circle(6.0));
         Button quitButton = new Button("Quit");
         quitButton.setShape(new Circle(6.0));
-        resumeButton.setLayoutX(175);
-        resumeButton.setLayoutY(50);
-        restartButton.setLayoutX(175);
-        restartButton.setLayoutY(100);
-        optionsButton.setLayoutX(175);
-        optionsButton.setLayoutY(150);
-        quitButton.setLayoutX(185);
-        quitButton.setLayoutY(200);
+
+        resumeButton.setLayoutX(175); resumeButton.setLayoutY(50);
+        restartButton.setLayoutX(175); restartButton.setLayoutY(100);
+        optionsButton.setLayoutX(175); optionsButton.setLayoutY(150);
+        quitButton.setLayoutX(185); quitButton.setLayoutY(200);
+
         newPane.getChildren().addAll(resumeButton, restartButton, optionsButton, quitButton);
 
         resumeButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -316,6 +326,7 @@ public class playController {
                 } else if (command == ShortMessage.NOTE_ON) {
                     com = 1;
                     startTimes.add(me.getTick());
+                    numNotes++;
                 }
                 if (com > 0) {
                     byte[] b = sm.getMessage();
@@ -330,6 +341,8 @@ public class playController {
 
     public void selectSong() throws InvalidMidiDataException, IOException, MidiUnavailableException {
         score = 0;
+        maxScore = 0;
+        numNotes = 0;
         scoreBox.setText(String.valueOf(score));
         final File[] midiFile = new File[1];
         fileChooser.setTitle("Project Preludio 2017: Open MIDI File");
@@ -368,6 +381,8 @@ public class playController {
 
             System.out.println("Starting Level");
 
+            maxScore = 500 * numNotes;
+
             sequencer.open();
             MetaEventListener play = new MetaEventListener() {
                 @Override
@@ -389,15 +404,87 @@ public class playController {
                         String noteName = NOTE_NAMES[meta.getData()[1] % 12];
                         activeNotes.remove(noteNames.get(noteName));
                         scoreBox.setText(String.valueOf(score));
-                        System.out.println("Score " + score);
+                        //System.out.println("Score " + score);
+                        float scoreF = (float) (score / maxScore);
+                        scoreBar.setProgress(scoreF);
                     }
                 }
             };
 
             sequencer.addMetaEventListener(play);
-
             sequencer.setSequence(sequence);
+
             sequencer.start();
+
+            System.out.println("Song Over");
+            if (sequencer.isOpen()) {
+                sequencer.close();
+            }
+            createScoreScreen(midiFile[0].getName(), String.valueOf(score));
+        }
+    }
+
+    public void createScoreScreen(String songName, String scoreStr) {
+        System.out.println("Creating Score Screen");
+        scoreScreen.setResizable(false);
+        scoreScreen.setTitle("Results");
+        scoreScreen.initModality(Modality.APPLICATION_MODAL);
+        scoreScreen.initOwner(Preludio.getInstance().getStage());
+        Pane newPane = new Pane();
+
+        Label title = new Label("Results");
+        title.setLayoutX(223); title.setLayoutY(27); title.setFont(new Font(24));
+
+        Label name = new Label("Song Name:");
+        name.setLayoutX(93); name.setLayoutY(121); name.setFont(new Font(18));
+
+        Label score = new Label("Score:");
+        score.setLayoutX(120); score.setLayoutY(190); score.setFont(new Font(18));
+
+        Label nameValue = new Label(songName);
+        nameValue.setLayoutX(263); nameValue.setLayoutY(124); nameValue.setFont(new Font(18));
+
+        Label scoreValue = new Label(scoreStr);
+        scoreValue.setLayoutX(232); scoreValue.setLayoutY(193); scoreValue.setFont(new Font(18));
+
+        Button saveExitButton = new Button("Save and Exit");
+        saveExitButton.setLayoutX(203); saveExitButton.setLayoutY(283);
+        saveExitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                saveScore(songName, scoreStr);
+                scoreScreen.close();
+            }
+        });
+
+        newPane.getChildren().addAll(title, name, score, nameValue, scoreValue, saveExitButton);
+        Scene scoreScene = new Scene(newPane, 500, 400);
+        scoreScreen.setScene(scoreScene);
+        scoreScreen.show();
+        System.out.println("Score Screen Shown");
+    }
+
+    @FXML
+    public void saveScore(String name, String score) {
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Timestamp(System.currentTimeMillis()));
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter("scores.csv", true);
+            System.out.println("File being written");
+            writer.write(timeStamp + ", " + name + ", " + score + "\n");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                writer.close();
+                System.out.println("Writer closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -525,20 +612,26 @@ public class playController {
             //double deltaX = sprite.getTransition().getToX() - sprite.getNote().getX();
             double deltaY = sprite.getTransition().getToY() - sprite.getNote().getY();
             //System.out.println("DeltaX " + deltaX);
-            System.out.println("DeltaY " + deltaY);
+            //System.out.println("DeltaY " + deltaY);
 
             if ((deltaY > 300 && deltaY < 600)) {
                 score += 100;
                 activeNotes.remove(sprite);
                 sprite.getNote().setVisible(false);
+                //feedback.setTextFill(Color.RED);
+                //feedback.setText("BAD");
             } else if ((deltaY > 100 && deltaY < 300)) {
                 score += 300;
                 activeNotes.remove(sprite);
                 sprite.getNote().setVisible(false);
+                //feedback.setTextFill(Color.GREEN);
+                //feedback.setText("FINE");
             } else if ((deltaY > 0 && deltaY < 100)) {
                 score += 500;
                 activeNotes.remove(sprite);
                 sprite.getNote().setVisible(false);
+                //feedback.setTextFill(Color.ALICEBLUE);
+                //feedback.setText("EXCELLENT");
             } else {
                 score += 0;
             }
