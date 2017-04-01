@@ -46,11 +46,11 @@ public class lessonController {
     void initialize() throws FileNotFoundException {
         lesson_text.setWrapText(true);
         lesson_text.setEditable(false);
-        if (CurrentLesson.playLesson()) {
-            String text = new Scanner(CurrentLesson.getText()).useDelimiter("\\Z").next();
-            lesson_text.setText(text);
-            CurrentLesson.setPlayLesson(false);
+        String text = "";
+        if (CurrentLesson.getText() != null) {
+            text = new Scanner(CurrentLesson.getText()).useDelimiter("\\Z").next();
         }
+        lesson_text.setText(text);
     }
 
     @FXML
@@ -86,7 +86,7 @@ public class lessonController {
 
     @FXML
     void previewLesson(ActionEvent event) throws IOException {
-        if (midiFile != null) {
+        if (CurrentLesson.getMidi() != null) {
             CurrentLesson.setPlayLesson(true);
             Preludio.getInstance().setNewScene("/view/fxml/concert.fxml");
         }
@@ -94,7 +94,7 @@ public class lessonController {
 
     @FXML
     void playLesson(ActionEvent event) throws IOException {
-        if (midiFile != null) {
+        if (CurrentLesson.getMidi() != null) {
             CurrentLesson.setPlayLesson(true);
             Preludio.getInstance().setNewScene("/view/fxml/rhythmGame.fxml");
         }

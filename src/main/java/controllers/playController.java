@@ -282,9 +282,15 @@ public class playController {
                     if (sequencer.isOpen()) {
                         sequencer.close();
                     }
-                    Preludio.getInstance().setNewScene(
-                            "/view/fxml/mainMenu.fxml");
-                    Preludio.getInstance().titlePlayer.play();
+                    if (CurrentLesson.playLesson()) {
+                        CurrentLesson.setPlayLesson(false);
+                        Preludio.getInstance().setNewScene(
+                                "/view/fxml/lessons.fxml");
+                    } else {
+                        Preludio.getInstance().setNewScene(
+                                "/view/fxml/mainMenu.fxml");
+                        Preludio.getInstance().titlePlayer.play();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
