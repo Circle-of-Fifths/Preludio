@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
 public class titleScreenController {
 
     private String registerURL =
-            "http://circleoffifths.000webhostapp.com/register.php";
+            "http://ec2-54-214-225-63.us-west-2.compute.amazonaws.com/register.php";
 
     @FXML
     private AnchorPane pane;
