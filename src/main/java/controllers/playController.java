@@ -407,6 +407,12 @@ public class playController {
                         //System.out.println("Score " + score);
                         float scoreF = (float) (score / maxScore);
                         scoreBar.setProgress(scoreF);
+                    } else if (type == 0x2F) {
+                        System.out.println("Song Over");
+
+                        sequencer.stop();
+
+                        sequencer.close();
                     }
                 }
             };
@@ -415,13 +421,9 @@ public class playController {
             sequencer.setSequence(sequence);
 
             sequencer.start();
-
-            System.out.println("Song Over");
-            if (sequencer.isOpen()) {
-                sequencer.close();
-            }
-            createScoreScreen(midiFile[0].getName(), String.valueOf(score));
         }
+
+//        createScoreScreen(midiFile[0].getName(), String.valueOf(score));
     }
 
     public void createScoreScreen(String songName, String scoreStr) {
