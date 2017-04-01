@@ -27,7 +27,12 @@
             <Font size="48.0" />
          </font>
       </Label>
-      <Button fx:id="loginButton" layoutX="777.0" mnemonicParsing="false" onMouseClicked="#login" text="Login">
+      <Button fx:id="registerButton" layoutX="756.0" mnemonicParsing="false" onMouseClicked="#register" text="Register">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="loginButton" layoutX="684.0" mnemonicParsing="false" onMouseClicked="#login" text="Login">
          <font>
             <Font size="18.0" />
          </font>

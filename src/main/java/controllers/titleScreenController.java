@@ -1,5 +1,6 @@
 package controllers;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import engine.Preludio;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,9 +10,15 @@ import javafx.scene.effect.Glow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class titleScreenController {
+
+    private String registerURL =
+            "http://circleoffifths.000webhostapp.com/register.php";
 
     @FXML
     private AnchorPane pane;
@@ -62,6 +69,19 @@ public class titleScreenController {
     void login() throws IOException {
         Preludio.getInstance().buttonSound.play();
         Preludio.getInstance().setNewScene("/view/fxml/login.fxml");
+    }
+
+    @FXML
+    void register() throws URISyntaxException, IOException {
+        if(Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                desktop.browse(new URI(registerURL));
+            } else {
+                // Desktop has bad support for linux
+                Runtime.getRuntime().exec("xdg-open " + registerURL);
+            }
+        }
     }
 
 }
