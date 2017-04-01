@@ -1,6 +1,7 @@
 package controllers;
 
 import engine.Preludio;
+import engine.scoreValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -25,24 +26,33 @@ public class recordsController {
     Button backButton;
 
     @FXML
-    TableView<String> table;
+    TableView<scoreValue> table;
 
     @FXML
     public void initialize() {
-        File scoreFile = new File("/scores.csv");
-        table = new TableView<>();
+        File scoreFile = new File("scores.csv");
+        table = new TableView<scoreValue>();
 
-        List<String> names = new ArrayList<>();
-        List<String> scores = new ArrayList<>();
+        //List<String> names = new ArrayList<>();
+        //List<String> scores = new ArrayList<>();
+        List<scoreValue> scores = new ArrayList<>();
 
         try {
             Scanner scanner = new Scanner(new FileReader(scoreFile));
-            scanner.useDelimiter(", ");
+            scanner.useDelimiter(",");
             while(scanner.hasNext()) {
-                String items = scanner.next();
+                String item = scanner.next();
+                String item2 = scanner.next();
+                String item3 = scanner.next();
+
+                scores.add(new scoreValue(item, item2, item3));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+
+        for (int i = 0; i < scores.size(); i++) {
+            table.getItems().add(scores.get(i));
         }
     }
 

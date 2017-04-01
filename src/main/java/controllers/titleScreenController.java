@@ -19,6 +19,9 @@ public class titleScreenController {
     @FXML
     private Button start_button;
 
+    @FXML
+    private Button loginButton;
+
     /**
      * Makes the Start Button glow when the mouse is over it.
      *
@@ -53,6 +56,12 @@ public class titleScreenController {
         Preludio.getInstance().buttonSound.play();
         Preludio.getInstance().setNewScene("/view/fxml/mainMenu.fxml");
         Preludio.getInstance().titlePlayer.play();
+    }
+
+    @FXML
+    void login() throws IOException {
+        Preludio.getInstance().buttonSound.play();
+        Preludio.getInstance().setNewScene("/view/fxml/login.fxml");
     }
 
 }

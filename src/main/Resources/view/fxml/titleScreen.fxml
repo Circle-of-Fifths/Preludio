@@ -27,5 +27,10 @@
             <Font size="48.0" />
          </font>
       </Label>
+      <Button fx:id="loginButton" layoutX="777.0" mnemonicParsing="false" onMouseClicked="#login" text="Login">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
