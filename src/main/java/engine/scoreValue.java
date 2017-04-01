@@ -5,19 +5,19 @@ package engine;
  */
 public class scoreValue {
 
-    private String time;
+    //private String time;
     private String name;
     private String score;
 
-    public scoreValue(String t, String n, String s) {
-        time = t;
+    public scoreValue(String n, String s) {
+        //time = t;
         name = n;
         score = s;
     }
 
-    public String getTime() {
-        return time;
-    }
+    //public String getTime() {
+        //return time;
+    //}
 
     public String getName() {
         return name;

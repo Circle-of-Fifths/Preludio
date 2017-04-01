@@ -481,7 +481,7 @@ public class playController {
         try {
             writer = new FileWriter("scores.csv", true);
             System.out.println("File being written");
-            writer.write(timeStamp + ", " + name + ", " + score + "\n");
+            writer.write(timeStamp + "," + name + "," + score + "\n");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
