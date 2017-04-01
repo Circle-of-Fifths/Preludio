@@ -133,13 +133,12 @@ public class concertController {
                 } else if (command == ShortMessage.NOTE_OFF || command == 0x58) {
                     com = 2;
                 }
-                System.out.println(command);
-                System.out.println(com);
                 if (com > 0) {
                     byte[] b = sm.getMessage();
                     int l = (b == null ? 0 : b.length);
                     MetaMessage metaMessage = new MetaMessage(com, b, l);
                     MidiEvent me2 = new MidiEvent(metaMessage, me.getTick());
+                    trk.add(me);
                     trk.add(me2);
                 }
             }
@@ -312,6 +311,7 @@ public class concertController {
             Track trk = sequence.createTrack();
             for (Track track : tracks) {
                 addNotesToTrack(track, trk);
+                sequence.deleteTrack(track);
             }
 
             sequencer.open();

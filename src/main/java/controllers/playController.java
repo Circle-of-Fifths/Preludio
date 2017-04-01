@@ -339,6 +339,7 @@ public class playController {
                     int l = (b == null ? 0 : b.length);
                     MetaMessage metaMessage = new MetaMessage(com, b, l);
                     MidiEvent me2 = new MidiEvent(metaMessage, me.getTick());
+                    trk.add(me);
                     trk.add(me2);
                 }
             }
@@ -383,6 +384,7 @@ public class playController {
             Track trk = sequence.createTrack();
             for (Track track : tracks) {
                 addNotesToTrack(track, trk);
+                sequence.deleteTrack(track);
             }
 
             System.out.println("Starting Level");
