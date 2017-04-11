@@ -408,6 +408,8 @@ public class playController {
                         sequencer.stop();
 
                         sequencer.close();
+
+                        saveScore(midiFile[0].getName(), String.valueOf(score));
                     }
                 }
             };
@@ -467,7 +469,7 @@ public class playController {
         try {
             writer = new FileWriter("scores.csv", true);
             System.out.println("File being written");
-            writer.write(timeStamp + "," + name + "," + score + "\n");
+            writer.write(Preludio.getInstance().getUserName() + "," + name + "," + score + "," + timeStamp + "\n");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {

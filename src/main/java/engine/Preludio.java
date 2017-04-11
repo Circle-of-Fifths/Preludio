@@ -17,6 +17,8 @@ import java.net.URL;
 public class Preludio extends Application {
     private static Preludio instance;
 
+    private static String userName;
+
     public MediaPlayer titlePlayer = this.createMusicPlayer(
             "/sound/BBC5_I.mp3", .75, true);
     public MediaPlayer buttonSound = this.createMusicPlayer(
@@ -56,6 +58,7 @@ public class Preludio extends Application {
         stage = primaryStage;
         stage.setTitle("Project Preludio 2017");
         //stage.setResizable(false);
+        userName = "User";
 
         primaryStage.setOnCloseRequest((WindowEvent e) ->{
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
@@ -115,6 +118,14 @@ public class Preludio extends Application {
             player.setOnEndOfMedia(player::stop);
         }
         return player;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String name) {
+        userName = name;
     }
 
     public Stage getStage() {
