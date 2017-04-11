@@ -70,6 +70,7 @@ public class loginController {
                     response += (char) c;
 
                 if (response.equals("Valid")) {
+                    Preludio.getInstance().setUserName(usernameBox.getText());
                     Preludio.getInstance().setNewScene("/view/fxml/mainMenu.fxml");
                 } else if (response.equals("Invalid")){
 

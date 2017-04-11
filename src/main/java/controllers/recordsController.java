@@ -28,8 +28,16 @@ public class recordsController {
 
     @FXML
     TableColumn<scoreValue, String> col1;
+
     @FXML
     TableColumn<scoreValue, String> col2;
+
+    @FXML
+    TableColumn<scoreValue, String> col3;
+
+    @FXML
+    TableColumn<scoreValue, String> col4;
+
 
     @FXML
     public void initialize() {
@@ -40,17 +48,20 @@ public class recordsController {
         try {
             Scanner scanner = new Scanner(new FileReader(scoreFile));
             scanner.useDelimiter(",");
-            while(scanner.hasNext()) {
+            while(scanner.hasNextLine()) {
                 String item = scanner.next();
-                //System.out.println(item);
+                System.out.println(item);
 
                 String item2 = scanner.next();
-                //System.out.println(item2);
+                System.out.println(item2);
 
                 String item3 = scanner.next();
-                //System.out.println(item3);
+                System.out.println(item3);
 
-                scores.add(new scoreValue(item2, item3));
+                String item4 = scanner.next();
+                System.out.println(item4);
+
+                scores.add(new scoreValue(item, item2, item3, item4));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -58,10 +69,12 @@ public class recordsController {
 
         table.setItems(scores);
 
-        col1.setCellValueFactory(new PropertyValueFactory("Name"));
-        col2.setCellValueFactory(new PropertyValueFactory("Score"));
+        col1.setCellValueFactory(new PropertyValueFactory("UserName"));
+        col2.setCellValueFactory(new PropertyValueFactory("Name"));
+        col3.setCellValueFactory(new PropertyValueFactory("Score"));
+        col4.setCellValueFactory(new PropertyValueFactory("Time"));
 
-        table.getColumns().setAll(col1, col2);
+        table.getColumns().setAll(col1, col2, col3, col4);
     }
 
     @FXML

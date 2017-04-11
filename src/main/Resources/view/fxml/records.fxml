@@ -10,17 +10,11 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.recordsController">
    <children>
-      <Label layoutX="408.0" layoutY="19.0" text="Records">
+      <Label layoutX="377.0" layoutY="19.0" text="Records">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <TableView fx:id="table" layoutX="120.0" layoutY="91.0" prefHeight="450.0" prefWidth="640.0">
-        <columns>
-          <TableColumn fx:id="col1" prefWidth="335.0" text="Song Name" />
-          <TableColumn fx:id="col2" prefWidth="303.0" text="Score" />
-        </columns>
-      </TableView>
       <Button fx:id="backButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goBack" onMouseClicked="#goBack" prefHeight="50.0" prefWidth="50.0">
          <font>
             <Font name="Serif Regular" size="24.0" />
@@ -36,5 +30,13 @@
             <Insets />
          </opaqueInsets>
       </Button>
+      <TableView fx:id="table" layoutX="111.0" layoutY="106.0" prefHeight="417.0" prefWidth="665.0" tableMenuButtonVisible="true">
+        <columns>
+          <TableColumn fx:id="col1" prefWidth="165.0" text="Username" />
+          <TableColumn fx:id="col2" prefWidth="165.0" text="Song Name" />
+            <TableColumn fx:id="col3" prefWidth="165.0" text="Score" />
+            <TableColumn fx:id="col4" prefWidth="165.0" text="Time" />
+        </columns>
+      </TableView>
    </children>
 </Pane>
