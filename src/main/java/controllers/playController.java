@@ -130,10 +130,10 @@ public class playController {
 
     private static int numWhiteKeys = 8;
     private static int numBlackKeys = 5;
-    private static int noteTimesIndex = 0;
     private static List<Long> startTimes = new ArrayList<>();
-    private static long endTime;
-    private static float bpm;
+    // time notes appear on screen in milliseconds
+    private static double noteDuration = 2000;
+    private static double ticksPerSecond;
     private static int score;
     private static int numNotes;
     private static int maxScore;
@@ -141,9 +141,6 @@ public class playController {
     FileChooser fileChooser = new FileChooser();
 
     private static Map<String, noteSprite> noteNames;
-
-    static List<Long> noteTimes = new ArrayList<>();
-    static Set<noteSprite> activeNotes = new HashSet<>();
 
     private static final String[] NOTE_NAMES = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
@@ -319,28 +316,21 @@ public class playController {
                         || (command == ShortMessage.NOTE_ON
                         && sm.getData2() == 0)) {
                     com = 2;
-                    endTime = me.getTick();
-                    float tickLen = (60000.0f / (bpm * 192.0f));
-                    for (long startTime : startTimes) {
-                        // assumption is that when there are multiple entries
-                        // All Notes Off is used and not a specific Note Off
-                        long time = (long) tickLen * (endTime - startTime);
-                        //System.out.println(time + " ms");
-                        noteTimes.add(time);
-                    }
-                    startTimes.clear();
                 } else if (command == ShortMessage.NOTE_ON) {
-                    com = 1;
-                    startTimes.add(me.getTick());
                     numNotes++;
+                    com = 1;
                 }
                 if (com > 0) {
                     byte[] b = sm.getMessage();
                     int l = (b == null ? 0 : b.length);
                     MetaMessage metaMessage = new MetaMessage(com, b, l);
                     MidiEvent me2 = new MidiEvent(metaMessage, me.getTick());
-                    trk.add(me);
+                    // for generating note sprite
                     trk.add(me2);
+                    // contains sound; delay sound
+                    me.setTick(me.getTick() +
+                            (long) (noteDuration / 1000 * ticksPerSecond));
+                    trk.add(me);
                 }
             }
         }
@@ -377,8 +367,11 @@ public class playController {
             scoreBox.setText(String.valueOf(score));
 
             Sequence sequence = MidiSystem.getSequence(midiFile[0]);
-            bpm = sequencer.getTempoInBPM();
-            System.out.println("BPM: " + bpm);
+            // https://docs.oracle.com/javase/tutorial/sound/MIDI-seq-intro.html
+            // NOTE: This doesn't work for SMPTE (only PPQ)
+            ticksPerSecond = sequence.getResolution()
+                    * (sequencer.getTempoInBPM() / 60.0);
+            System.out.println("Ticks per second: " + ticksPerSecond);
 
             Track[] tracks = sequence.getTracks();
             Track trk = sequence.createTrack();
@@ -403,18 +396,12 @@ public class playController {
                             noteNames.get(noteName).getKey().setEffect(new Glow());
                             //System.out.println("Key X: " + noteNames.get(noteName).getLayoutX() + " Key Y: " + noteNames.get(noteName).getLayoutY());
                             noteNames.get(noteName).getNote().setVisible(true);
-                            noteNames.get(noteName).getTransition().setDuration(new Duration(noteTimes.get(noteTimesIndex) - 100));
-                            noteTimesIndex++;
-                            activeNotes.add(noteNames.get(noteName));
+                            noteNames.get(noteName).getTransition()
+                                    // give 300 millisec buffer
+                                    .setDuration(new Duration(noteDuration + 300));
+                            noteNames.get(noteName).setActive(true);
                             noteNames.get(noteName).getTransition().play();
                         }
-                    } else if (type == 2) {
-                        String noteName = NOTE_NAMES[meta.getData()[1] % 12];
-                        activeNotes.remove(noteNames.get(noteName));
-                        scoreBox.setText(String.valueOf(score));
-                        //System.out.println("Score " + score);
-                        float scoreF = (float) (score / maxScore);
-                        scoreBar.setProgress(scoreF);
                     } else if (type == 0x2F) {
                         System.out.println("Song Over");
 
@@ -431,7 +418,6 @@ public class playController {
             sequencer.start();
         }
 
-//        createScoreScreen(midiFile[0].getName(), String.valueOf(score));
     }
 
     public void createScoreScreen(String songName, String scoreStr) {
@@ -512,62 +498,62 @@ public class playController {
                     // C key pressed
                     noteNames.get("C").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("C"));
                 } else if (event.getCode().equals(Settings.getKeyCSharp())) {
                     // C# key pressed
                     noteNames.get("C#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("C#"));
                 } else if (event.getCode().equals(Settings.getKeyD())) {
                     // D key pressed
                     noteNames.get("D").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("D"));
                 } else if (event.getCode().equals(Settings.getKeyDSharp())) {
                     // D# key pressed
                     noteNames.get("D#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("D#"));
                 } else if (event.getCode().equals(Settings.getKeyE())) {
                     // E key pressed
                     noteNames.get("E").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("E"));
                 } else if (event.getCode().equals(Settings.getKeyF())) {
                     // F key pressed
                     noteNames.get("F").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("F"));
                 } else if (event.getCode().equals(Settings.getKeyFSharp())) {
                     // F# key pressed
                     noteNames.get("F#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("F#"));
                 } else if (event.getCode().equals(Settings.getKeyG())) {
                     // G key pressed
                     noteNames.get("G").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("G"));
                 } else if (event.getCode().equals(Settings.getKeyGSharp())) {
                     // G# key pressed
                     noteNames.get("G#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("G#"));
                 } else if (event.getCode().equals(Settings.getKeyA())) {
                     // A key pressed
                     noteNames.get("A").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("A"));
                 } else if (event.getCode().equals(Settings.getKeyASharp())) {
                     // A# key pressed
                     noteNames.get("A#").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("A#"));
                 } else if (event.getCode().equals(Settings.getKeyB())) {
                     // B key pressed
                     noteNames.get("B").getKey().setFill(Color.BLUE);
                     //Preludio.getInstance().noteSound.play();
-                    noteCollisionCheck();
+                    noteCollisionCheck(noteNames.get("B"));
                 }
             }
         });
@@ -577,7 +563,6 @@ public class playController {
             public void handle(KeyEvent event) {
                 if (event.getCode().equals(Settings.getKeyC())) {
                     // C key pressed
-                    // noteCollisionCheck()
                     noteNames.get("C").getKey().setFill(Color.BEIGE);
                 } else if (event.getCode().equals(Settings.getKeyCSharp())) {
                     // C# key pressed
@@ -617,34 +602,36 @@ public class playController {
         });
     }
 
-    public void noteCollisionCheck() {
-        for (noteSprite sprite : activeNotes) {
-            //double deltaX = sprite.getTransition().getToX() - sprite.getNote().getX();
-            double deltaY = sprite.getTransition().getToY() - sprite.getNote().getY();
-            //System.out.println("DeltaX " + deltaX);
-            //System.out.println("DeltaY " + deltaY);
-
-            if ((deltaY > 300 && deltaY < 600)) {
-                score += 100;
-                activeNotes.remove(sprite);
-                sprite.getNote().setVisible(false);
-                //feedback.setTextFill(Color.RED);
-                //feedback.setText("BAD");
-            } else if ((deltaY > 100 && deltaY < 300)) {
-                score += 300;
-                activeNotes.remove(sprite);
-                sprite.getNote().setVisible(false);
-                //feedback.setTextFill(Color.GREEN);
-                //feedback.setText("FINE");
-            } else if ((deltaY > 0 && deltaY < 100)) {
-                score += 500;
-                activeNotes.remove(sprite);
-                sprite.getNote().setVisible(false);
-                //feedback.setTextFill(Color.ALICEBLUE);
-                //feedback.setText("EXCELLENT");
-            } else {
-                score += 0;
-            }
+    public void noteCollisionCheck(noteSprite sprite) {
+        if (sprite.isActive()) {
+            sprite.setActive(false);
+        } else {
+            return;
         }
+        //double deltaX = sprite.getTransition().getToX() - sprite.getNote().getX();
+        double deltaTime = noteDuration -
+                sprite.getTransition().getCurrentTime().toMillis();
+        System.out.println("Time before note: " + deltaTime);
+
+        if (deltaTime > 400 && deltaTime < 800) {
+            score += 100;
+            //feedback.setTextFill(Color.RED);
+            //feedback.setText("BAD");
+        } else if (deltaTime > 200 && deltaTime < 400) {
+            score += 300;
+            //feedback.setTextFill(Color.GREEN);
+            //feedback.setText("FINE");
+        } else if (deltaTime > -250 && deltaTime < 200) {
+            // buffer needed partly because the transition duration doesn't
+            // perfectly match when the note plays
+            score += 500;
+            //feedback.setTextFill(Color.ALICEBLUE);
+            //feedback.setText("EXCELLENT");
+        }
+        sprite.getNote().setVisible(false);
+        scoreBox.setText(String.valueOf(score));
+        double scoreF = (double) score / maxScore;
+        System.out.println("Progress: " + scoreF);
+        scoreBar.setProgress(scoreF);
     }
 }

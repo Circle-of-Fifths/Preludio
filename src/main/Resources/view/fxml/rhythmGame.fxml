@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
@@ -113,5 +114,6 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <Line endX="600.0" endY="375.0" startX="200.0" startY="375.0" stroke="#7c59fc" strokeWidth="2.0" />
    </children>
 </Pane>

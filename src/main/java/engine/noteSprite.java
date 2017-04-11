@@ -1,5 +1,6 @@
 package engine;
 
+import javafx.animation.Interpolator;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,7 +29,6 @@ public class noteSprite {
         sprite = note;
         double x = sprite.getX();
         double y = sprite.getY();
-        isHit = false;
         isActive = false;
         sprite.setVisible(false);
         transition = new TranslateTransition();
@@ -37,17 +37,17 @@ public class noteSprite {
         transition.setFromX(x);
         transition.setFromY(y);
         transition.setToX(x);
-        transition.setToY(rectangle.getLayoutY() + rectangle.getHeight() / 2);
+        // had to adjust this; want the note to end past the line, so there is
+        // the opportunity to hit it before and after, but the note should
+        // sound when reaches the line
+        transition.setToY(385 - sprite.getFitHeight());
+        transition.setInterpolator(Interpolator.LINEAR);
         transition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 sprite.setVisible(false);
                 sprite.setTranslateX(x);
                 sprite.setTranslateY(y);
-                if (!isHit) {
-                    // print Miss
-                    isActive = false;
-                }
             }
         });
     }
@@ -70,13 +70,5 @@ public class noteSprite {
 
     public void setActive(boolean value) {
         isActive = value;
-    }
-
-    public boolean isHit() {
-        return isHit;
-    }
-
-    public void setHit(boolean value) {
-        isHit = value;
     }
 }
