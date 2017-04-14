@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" style="-fx-background-image: url(/view/res/freePlayBackground.jpg); -fx-background-size: stretch;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.freePlayController">
+<BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" style="-fx-background-image: url(/view/res/freePlayBackground.jpg); -fx-background-size: stretch;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.freePlayController">
    <center>
       <GridPane fx:id="keys_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="400.0" style="-fx-background-image: url(/view/res/freePlayBackground.jpg); -fx-background-size: stretch;" BorderPane.alignment="CENTER">
         <columnConstraints>

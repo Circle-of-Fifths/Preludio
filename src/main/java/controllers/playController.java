@@ -4,6 +4,7 @@ import engine.CurrentLesson;
 import engine.Preludio;
 import engine.Settings;
 import engine.noteSprite;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -159,8 +160,13 @@ public class playController {
     @FXML
     public void initialize() throws MidiUnavailableException, InvalidMidiDataException, IOException {
         createPauseMenu();
+
+        scoreScreen.setResizable(false);
+        scoreScreen.setTitle("Results");
+        scoreScreen.initModality(Modality.APPLICATION_MODAL);
+        scoreScreen.initOwner(Preludio.getInstance().getStage());
+
         setupKeyListener();
-        scoreBar = new ProgressBar();
         score = 0;
 
         noteNames = new HashMap<>();
@@ -341,6 +347,8 @@ public class playController {
         maxScore = 0;
         numNotes = 0;
         scoreBox.setText(String.valueOf(score));
+        scoreBar.setProgress(0.0);
+
         final File[] midiFile = new File[1];
         fileChooser.setTitle("Project Preludio 2017: Open MIDI File");
         //fileChooser.setInitialDirectory(startDir);
@@ -409,7 +417,14 @@ public class playController {
 
                         sequencer.close();
 
-                        saveScore(midiFile[0].getName(), String.valueOf(score));
+                        //saveScore(midiFile[0].getName(), String.valueOf(score));
+
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                createScoreScreen(midiFile[0].getName(), String.valueOf(score));
+                            }
+                        });
                     }
                 }
             };
@@ -424,10 +439,7 @@ public class playController {
 
     public void createScoreScreen(String songName, String scoreStr) {
         System.out.println("Creating Score Screen");
-        scoreScreen.setResizable(false);
-        scoreScreen.setTitle("Results");
-        scoreScreen.initModality(Modality.APPLICATION_MODAL);
-        scoreScreen.initOwner(Preludio.getInstance().getStage());
+
         Pane newPane = new Pane();
 
         Label title = new Label("Results");
@@ -465,10 +477,15 @@ public class playController {
     @FXML
     public void saveScore(String name, String score) {
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Timestamp(System.currentTimeMillis()));
+        File scoreFile = new File("scores.csv");
+
         FileWriter writer = null;
         try {
             writer = new FileWriter("scores.csv", true);
             System.out.println("File being written");
+            if (scoreFile.length() == 0) {
+                writer.write("Username,Song Name, Score, Time" + "\n");
+            }
             writer.write(Preludio.getInstance().getUserName() + "," + name + "," + score + "," + timeStamp + "\n");
         } catch (FileNotFoundException e) {
             e.printStackTrace();

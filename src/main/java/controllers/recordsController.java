@@ -41,30 +41,30 @@ public class recordsController {
 
     @FXML
     public void initialize() {
+        int iteration = 0;
         File scoreFile = new File("scores.csv");
 
         ObservableList<scoreValue> scores = FXCollections.observableArrayList();
 
-        try {
-            Scanner scanner = new Scanner(new FileReader(scoreFile));
-            scanner.useDelimiter(",");
-            while(scanner.hasNextLine()) {
-                String item = scanner.next();
-                System.out.println(item);
+        if (scoreFile.exists()) {
+            try {
+                Scanner scanner = new Scanner(new FileReader(scoreFile));
 
-                String item2 = scanner.next();
-                System.out.println(item2);
+                while(scanner.hasNextLine()) {
+                    if (iteration == 0) {
+                        String input = scanner.nextLine();
+                    } else {
+                        String input = scanner.nextLine();
+                        String[] data = input.split(",");
+                        scores.add(new scoreValue(data[0], data[1], data[2], data[3]));
+                    }
+                    iteration++;
+                }
 
-                String item3 = scanner.next();
-                System.out.println(item3);
-
-                String item4 = scanner.next();
-                System.out.println(item4);
-
-                scores.add(new scoreValue(item, item2, item3, item4));
+                scanner.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
 
         table.setItems(scores);

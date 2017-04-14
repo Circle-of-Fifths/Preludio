@@ -1,6 +1,7 @@
 package engine;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -65,7 +66,7 @@ public class Preludio extends Application {
                     "Are you sure you want to quit?");
                 alert.showAndWait().filter(response ->
                         response == ButtonType.OK).ifPresent(
-                        response -> System.exit(0));
+                        response -> Platform.exit());
                 e.consume();});
 
         setNewScene("/view/fxml/titleScreen.fxml");
