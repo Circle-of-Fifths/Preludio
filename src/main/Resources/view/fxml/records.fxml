@@ -30,12 +30,13 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <TableView fx:id="table" layoutX="111.0" layoutY="106.0" prefHeight="417.0" prefWidth="665.0" tableMenuButtonVisible="true">
+      <TableView fx:id="table" layoutX="54.0" layoutY="106.0" prefHeight="417.0" prefWidth="755.0" tableMenuButtonVisible="true">
         <columns>
-          <TableColumn fx:id="col1" prefWidth="165.0" text="Username" />
-          <TableColumn fx:id="col2" prefWidth="165.0" text="Song Name" />
-            <TableColumn fx:id="col3" prefWidth="165.0" text="Score" />
-            <TableColumn fx:id="col4" prefWidth="165.0" text="Time" />
+          <TableColumn fx:id="col1" prefWidth="150.0" text="Username" />
+          <TableColumn fx:id="col2" prefWidth="150.0" text="Song Name" />
+            <TableColumn fx:id="col3" prefWidth="150.0" text="Score" />
+            <TableColumn fx:id="col4" minWidth="0.0" prefWidth="150.0" text="Rating" />
+            <TableColumn fx:id="col5" prefWidth="150.0" text="Time" />
         </columns>
       </TableView>
    </children>

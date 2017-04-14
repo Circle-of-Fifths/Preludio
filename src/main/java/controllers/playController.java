@@ -131,6 +131,7 @@ public class playController {
 
     private static int numWhiteKeys = 8;
     private static int numBlackKeys = 5;
+    private static String songName;
     private static List<Long> startTimes = new ArrayList<>();
     // time notes appear on screen in milliseconds
     private static double noteDuration = 2000;
@@ -168,6 +169,7 @@ public class playController {
 
         setupKeyListener();
         score = 0;
+        songName = "";
 
         noteNames = new HashMap<>();
 
@@ -371,7 +373,9 @@ public class playController {
 
         if (midiFile[0] != null && midiFile[0].getName().contains(".mid")) {
             System.out.println("got the midi file");
-            titleBox.setText(midiFile[0].getName());
+            int periodPosition = midiFile[0].getName().lastIndexOf(".");
+            songName = midiFile[0].getName().substring(0, periodPosition);
+            titleBox.setText(songName);
             scoreBox.setText(String.valueOf(score));
 
             Sequence sequence = MidiSystem.getSequence(midiFile[0]);
@@ -417,12 +421,10 @@ public class playController {
 
                         sequencer.close();
 
-                        //saveScore(midiFile[0].getName(), String.valueOf(score));
-
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                createScoreScreen(midiFile[0].getName(), String.valueOf(score));
+                                createScoreScreen(songName, String.valueOf(score));
                             }
                         });
                     }
@@ -442,8 +444,27 @@ public class playController {
 
         Pane newPane = new Pane();
 
-        Label title = new Label("Results");
-        title.setLayoutX(223); title.setLayoutY(27); title.setFont(new Font(24));
+        Double rating = (double) Integer.parseInt(scoreStr) / maxScore;
+        Label title = new Label();
+        if (rating < .60) {
+            title.setText("BAD");
+            title.setTextFill(Color.RED);
+        } else if (rating >= .60 && rating < .80) {
+            title.setText("STANDARD");
+            title.setTextFill(Color.BLUEVIOLET);
+        } else if (rating >= .80 && rating < .90) {
+            title.setText("GREAT");
+            title.setTextFill(Color.GREEN);
+        } else if (rating >= .90 && rating < 1.0) {
+            title.setText("EXCELLENT");
+            title.setTextFill(Color.BLUE);
+        } else if (rating == 1.0) {
+            title.setText("PERFECT");
+            title.setTextFill(Color.GOLD);
+        } else {
+            title.setText("Error");
+        }
+        title.setLayoutX(215); title.setLayoutY(25); title.setFont(new Font(24));
 
         Label name = new Label("Song Name:");
         name.setLayoutX(93); name.setLayoutY(121); name.setFont(new Font(18));
@@ -462,7 +483,7 @@ public class playController {
         saveExitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                saveScore(songName, scoreStr);
+                saveScore(songName, scoreStr, title.getText());
                 scoreScreen.close();
             }
         });
@@ -475,7 +496,7 @@ public class playController {
     }
 
     @FXML
-    public void saveScore(String name, String score) {
+    public void saveScore(String name, String score, String rating) {
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Timestamp(System.currentTimeMillis()));
         File scoreFile = new File("scores.csv");
 
@@ -484,9 +505,9 @@ public class playController {
             writer = new FileWriter("scores.csv", true);
             System.out.println("File being written");
             if (scoreFile.length() == 0) {
-                writer.write("Username,Song Name, Score, Time" + "\n");
+                writer.write("Username,Song Name, Score, Rating, Time" + "\n");
             }
-            writer.write(Preludio.getInstance().getUserName() + "," + name + "," + score + "," + timeStamp + "\n");
+            writer.write(Preludio.getInstance().getUserName() + "," + name + "," + score + "," + rating + "," + timeStamp + "\n");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {

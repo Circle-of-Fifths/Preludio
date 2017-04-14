@@ -38,6 +38,9 @@ public class recordsController {
     @FXML
     TableColumn<scoreValue, String> col4;
 
+    @FXML
+    TableColumn<scoreValue, String> col5;
+
 
     @FXML
     public void initialize() {
@@ -56,7 +59,7 @@ public class recordsController {
                     } else {
                         String input = scanner.nextLine();
                         String[] data = input.split(",");
-                        scores.add(new scoreValue(data[0], data[1], data[2], data[3]));
+                        scores.add(new scoreValue(data[0], data[1], data[2], data[3], data[4]));
                     }
                     iteration++;
                 }
@@ -72,9 +75,10 @@ public class recordsController {
         col1.setCellValueFactory(new PropertyValueFactory("UserName"));
         col2.setCellValueFactory(new PropertyValueFactory("Name"));
         col3.setCellValueFactory(new PropertyValueFactory("Score"));
-        col4.setCellValueFactory(new PropertyValueFactory("Time"));
+        col4.setCellValueFactory(new PropertyValueFactory("Rating"));
+        col5.setCellValueFactory(new PropertyValueFactory("Time"));
 
-        table.getColumns().setAll(col1, col2, col3, col4);
+        table.getColumns().setAll(col1, col2, col3, col4, col5);
     }
 
     @FXML
