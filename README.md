@@ -68,4 +68,4 @@ Since the game itself does not require an installer, any problems with installat
 
 ![Running Preludio without the JDK](./JRE.jpg)
 
-If you have issues with not being able to save or view scores in Records mode, try running the game in a command prompt. To do so, open a command prompt, navigate to your extracted zip (for example `/home/Documents/"Project Preludio`) and run this command (assuming you have java installed properly and in your system path): `java -jar Preludio.jar`
+If you have issues with not being able to save or view scores in Records mode, try running the game in a command prompt. To do so, open a command prompt, navigate to your extracted zip (for example `/home/Documents/Project Preludio`) and run this command (assuming you have java installed properly and in your system path): `java -jar Preludio.jar`
