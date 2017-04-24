@@ -2,7 +2,7 @@
 Project Preludio 2017 is an interactive rhythm game that we hope will help many to learn the fundementals of music theory in a fun way. Create your own levels and share with friends. Anyone can join in the fun!!!
 We hope you enjoy it as much as we did making it.
 
-Release Notes:
+##Release Notes:
 
 New Software Feature: Concert Mode
 Select a .midi file from your computer and have the computer play the file for you and show you the notes being played.
@@ -37,11 +37,11 @@ In the original agreement document, the game was supposed to have support for ex
 Missing Functionality: Informational Loading Screens
 In the original agreement document, the game was supposed to have informational loading screens to teach extra topics on music history while the game loaded. The Circle of Fifths team was not able to include this feature, partly because it was not necessary as the game loads quickly (~ 1 to 2 seconds) going from one screen to another.
 
-Install Instructions:
+##Install Instructions:
 
 Go to the Download page and download the .zip file. The .zip file contains the necessary game files, compressed into one file called Preludio.jar, and the game folder structure is already created so the game can save and do other necessary operations. The sample .midi and other files that come with the game are also located within the .zip file. After downloading, extract the .zip file to whatever location you want on your computer. Whenever you want to play, just run the Preludio.jar file by double clicking it and the game will start. You can also create a shortcut that references  Preludio.jar to start from the desktop if you don’t place the game files on the desktop.
 
-Please Note: You must have the Java 8 JRE (Java Runtime Environment) installed on your computer so that your computer knows how to run a .jar file. 
+*Please Note:* You must have the Java 8 JRE (Java Runtime Environment) installed on your computer so that your computer knows how to run a .jar file. 
 You can download the JRE from Oracle’s website: http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html 
 Please consult Oracle’s website on specific installation instructions for your Operating System: http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html 
 
