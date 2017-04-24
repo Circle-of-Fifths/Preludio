@@ -45,7 +45,7 @@ public class recordsController {
     @FXML
     public void initialize() {
         int iteration = 0;
-        File scoreFile = new File("scores.csv");
+        File scoreFile = new File(Preludio.getInstance().getSaveFilePath());
 
         ObservableList<scoreValue> scores = FXCollections.observableArrayList();
 

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -27,6 +28,8 @@ public class Preludio extends Application {
     public MediaPlayer noteSound = this.createMusicPlayer(
             "/sound/tamborine.wav", .25, false);
     private static Stage stage;
+
+    private static String saveFilePath;
 
     /**
      * Constructor for Preludio Application.
@@ -60,6 +63,8 @@ public class Preludio extends Application {
         stage.setTitle("Project Preludio 2017");
         //stage.setResizable(false);
         userName = "User";
+        File currentDir = new File(".");
+        saveFilePath = currentDir.getAbsolutePath() + File.separator + "SAVEDATA" + File.separator + "scores.csv";
 
         primaryStage.setOnCloseRequest((WindowEvent e) ->{
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
@@ -131,5 +136,9 @@ public class Preludio extends Application {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public String getSaveFilePath() {
+        return saveFilePath;
     }
 }

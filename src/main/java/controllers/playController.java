@@ -356,7 +356,7 @@ public class playController {
 
         final File[] midiFile = new File[1];
         fileChooser.setTitle("Project Preludio 2017: Open MIDI File");
-        //fileChooser.setInitialDirectory(startDir);
+        fileChooser.setInitialDirectory(new File("."));
 
         if (CurrentLesson.playLesson()) {
             midiFile[0] = CurrentLesson.getMidi();
@@ -501,11 +501,11 @@ public class playController {
     @FXML
     public void saveScore(String name, String score, String rating) {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Timestamp(System.currentTimeMillis()));
-        File scoreFile = new File("scores.csv");
+        File scoreFile = new File(Preludio.getInstance().getSaveFilePath());
 
         FileWriter writer = null;
         try {
-            writer = new FileWriter("scores.csv", true);
+            writer = new FileWriter(scoreFile.getAbsolutePath(), true);
             System.out.println("File being written");
             if (scoreFile.length() == 0) {
                 writer.write("Username,Song Name, Score, Rating, Time" + "\n");

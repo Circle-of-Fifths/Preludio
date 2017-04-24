@@ -284,7 +284,7 @@ public class concertController {
         player.getManagedPlayer().finish();
         final File[] midiFile = new File[1];
         fileChooser.setTitle("Project Preludio 2017: Open MIDI File");
-        //fileChooser.setInitialDirectory(startDir);
+        fileChooser.setInitialDirectory(new File("."));
 
         if (CurrentLesson.playLesson()) {
             midiFile[0] = CurrentLesson.getMidi();
