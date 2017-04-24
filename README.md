@@ -43,6 +43,7 @@ Go to the Download page and download the .zip file. The .zip file contains the n
 [Download](http://ec2-54-214-225-63.us-west-2.compute.amazonaws.com/download.html)
 
 **Please Note**  
-You must have the Java 8 JRE (Java Runtime Environment) installed on your computer so that your computer knows how to run a .jar file. 
-You can download the JRE from [Oracle’s website.](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)  
+You must have the Java 8 JDK (Java Development Kit) installed on your computer so that your computer knows how to run the Preludio.jar file. This is because Preludio takes advantage of JavaFX libraries, which are not included in the base JRE runtime.
+You can download the JDK from [Oracle’s website.](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 Please consult Oracle’s website on [specific installation instructions for your operating system.](http://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html)
+Windows users will need follow extra steps in order to get their PATH variable set up for Java to be recognized by the system. See [here](https://docs.oracle.com/javase/8/docs/technotes/guides/install/windows_jdk_install.html#CHDEBCCJ) for more details.
